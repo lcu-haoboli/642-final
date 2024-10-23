@@ -1,37 +1,14 @@
+from base import Base
+from sqlalchemy import Column, String, Integer, DECIMAL ,FLOAT
 
-class PremadeBox:
+class PremadeBox(Base):
+	# mapping
+	__tablename__ = "premade_box"
+	preMadeboxId = Column(Integer, primary_key=True)
+	boxSize = Column(String(50))
+	numberOfBox = Column(Integer)
+
 	def __init__(self, boxSize, numOfBoxes, boxContent) -> None:
-		self._boxSize = boxSize
-		self._numOfBoxes = numOfBoxes
-		self._boxContent = boxContent
-
-		@property
-		def boxSize(self):
-			return self._boxSize
-		
-		@boxSize.setter
-		def boxSize(self, size):
-			self._boxSize = size
-
-
-		@property
-		def numOfBoxes(self):
-			return self._numOfBoxes
-			
-		@numOfBoxes
-		def numOfBoxes(self, num):
-			self._numOfBoxes = num
-
-		@property
-		def boxContent(self):
-			return self._boxContent
-
-		@boxContent.setter
-		def boxContent(self, content):
-			self._boxContent = content
-
-	def boxPrice(self):
-			return self.numOfBoxes * self.boxSize
-		
-			
-		
+		self.boxSize = boxSize
+		self.numOfBoxes = numOfBoxes
+		self.boxContent = boxContent
