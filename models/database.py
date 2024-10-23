@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from . import Veggie
 from . import Person
 from .import Staff
+from . import Customer
 from base import Base, session
 from datetime import date
 
@@ -16,8 +17,9 @@ def init_db():
 	# person = Person.Person()
 	today =  date.today()
 	staff = Staff.Staff("kevin", "li", "1234", "kevinli",1, today, "hello-dep", "abcd",None, None)
+	cust =Customer.Customer("kevinb", "lib", "1234", "kevinli",2, "address", 0,0)
 	session.add(veggie)
-	# session.add(person)
 	session.add(staff)
+	session.add(cust)
 	session.commit()
 	
