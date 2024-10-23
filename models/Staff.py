@@ -1,65 +1,24 @@
-from Person import Person
+from . import Person
 from datetime import date
+from sqlalchemy import  Column, Integer, String, ForeignKey,DateTime
+from base import Base
 
-class Staff(Person):
-	def __init__(self, staffID: int, dateJoined: date, deptName:str,listOfOrder,premadeBoxes,veggie, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-		self._staffID = staffID
-		self._dateJoined = dateJoined
-		self._deptName = deptName
-		self._listOfOrder = listOfOrder
-		self._premadeBoxes = premadeBoxes
-		self._veggie = veggie
+class Staff(Person.Person, Base):
+	__tablename__ = "staff"
+	# mapping
+	staffID = Column(Integer, ForeignKey("person.id"),primary_key = True)
+	dateJoined = Column(DateTime)
+	deptName = Column(String(50))
+	listOfOrder = Column(String(100), nullable=True)
+	premadeBoxes = Column(String(50),nullable=True)
+	veggie = Column(String(50), nullable=True)
 
-	@property
-	def staffID(self) -> int:
-		return self._staffID
 
-	@staffID.setter
-	def staffID(self, value: int):
-		self._staffID = value
-
-	@property
-	def dateJoined(self) -> str:
-		return self._dateJoined
-
-	@dateJoined.setter
-	def role(self, dateJoined: date):
-		self._dateJoined = dateJoined
-
-	@property
-	def listOfOrder(self) -> list:
-		return self._listOfOrder
-
-	@listOfOrder.setter
-	def listOfOrder(self, listOfOrder):
-		self._listOfOrder = listOfOrder
-		
-	@property
-	def deptName(self):
-		return self._deptName
-
-	@deptName.setter
-	def deptName(self,value):
-		self._deptName = value
-
-	@property
-	def premadeBoxes(self):
-		return self._premadeBoxes
-	
-	@premadeBoxes.setter
-	def premadeBoxes(self,premadeBoxes):
-		self._premadeBoxes = premadeBoxes
-
-	
-	@property
-	def veggie(self):
-		return self._veggie
-	
-	@veggie.setter
-	def veggie(self,value):
-		self._veggie = value
-		
-
-	def getFullName(self):
-		return f"{self.firstName} {self.lastName}"
+	def __init__(self,firstName: str, lastName: str, password: str, userName: str, staffID: int, dateJoined: date, deptName:str,listOfOrder,premadeBoxes,veggie):
+		super().__init__(firstName, lastName, password ,userName) 
+		self.staffID = staffID
+		self.dateJoined = dateJoined
+		self.deptName = deptName
+		self.listOfOrder = listOfOrder
+		self.premadeBoxes = premadeBoxes
+		self.veggie = veggie
