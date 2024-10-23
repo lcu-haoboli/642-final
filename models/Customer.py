@@ -1,34 +1,21 @@
-from Person import Person
-class Customer(Person):
-	def __init__(self,custAddress,custBalance,custID,maxOwing, *args, **kwargs) -> None:
-		super().__init__(*args, **kwargs)
-		self._custAddress = custAddress
-		self._custID = custID
-		self._cusBalance = custBalance
-		self._maxOwning = maxOwing
-	
-	@property
-	def custAddress(self):
-		return self._custAddress
-	
-	@custAddress.setter
-	def custAddress(self, value):
-		self._custAddress = value
-	
-	@property
-	def custBalance(self):
-		return self._cusBalance
+from . import Person
+from sqlalchemy import  Column, Integer, String, ForeignKey,DateTime, DOUBLE,DECIMAL
+class Customer(Person.Person):
+	__tablename__="customer"
+	# mapping
 
-	@custBalance.setter
-	def custBalance(self, value):
-		self._cusBalance = value
-	
-	@property
-	def maxOwning(self):
-		return self._maxOwning
-	
-	@maxOwning.setter
-	def maxOwning(self,value):
-		self._maxOwning = value
+	custId = Column(Integer, ForeignKey("person.id"),primary_key = True)
+	custAddress = Column(String(100))
+	custBalance = Column(DECIMAL(precision=5, scale=2))
+	maxOwning = Column(DECIMAL(precision=5, scale=2))
 
-	# some method might needed 
+	def __init__(self,firstName: str, lastName: str, password: str, userName: str,custId,custAddress,custBalance,maxOwing) -> None:
+		super().__init__(firstName, lastName, password ,userName) 
+		self.custId = custId
+		self.custAddress = custAddress
+		self.custBalance = custBalance
+		self.maxOwning = maxOwing
+
+	def getCustAddress(self):
+		return self.custAddress
+	
