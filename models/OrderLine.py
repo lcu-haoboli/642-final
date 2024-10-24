@@ -1,11 +1,11 @@
 from base import Base
-from sqlalchemy import Column, String, Integer, DECIMAL ,FLOAT
+from sqlalchemy import Column, String, Integer, DECIMAL ,FLOAT,ForeignKey
 
 class OrderLine:
 	# mapping
 	__tablename__ = "order_line"
 	orderLineId = Column(Integer, primary_key=True)
-	orderId = Column(Integer,ForeignKey = "order.orderId")
+	orderId = Column(Integer,ForeignKey("order.orderId"))
 	veggieId = Column(Integer, nullable=True)
 	premadeBoxId = Column(Integer, nullable=True)
 

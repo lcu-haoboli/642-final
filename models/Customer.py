@@ -22,7 +22,7 @@ class Customer(Person.Person):
 class CorporateCustomer(Customer):
 	# mapping
 	__tablename__ = "corporateCustomer"
-	corpCustId = Column(Integer, ForeignKey="customer.custId", primary_key=True)
+	corpCustId = Column(Integer, ForeignKey("customer.custId"), primary_key=True)
 	discountRate = Column(DECIMAL(precision=5, scale=2))
 	maxCredit = Column(DECIMAL(precision=5, scale=2))
 	minBalance = Column(DECIMAL(precision=5, scale=2))

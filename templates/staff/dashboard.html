@@ -1,0 +1,37 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/staff-dashboard.css') }}"
+/>
+
+<div class="account-content--container">
+  <div class="account-ccount--header">
+    Welcome / {{ user["username"] }}
+    {% set role = 'staff' %}
+    {% include 'components/role-badge.html' %}
+  </div>
+
+
+  <div class="account-content--container">
+    <div class="staff-dashboard-card">
+      {% set entry_name = "Product Management" %}
+      <!--  -->
+      {% set entry_url = "product_page.get_list_of_product" %}
+      <!--  -->
+      {% include "components/dashboard-entry-card.html" %}
+    </div>
+    <div class="staff-dashboard-card">
+      {% set entry_name = "Order Management" %}
+      <!--  -->
+      {% set entry_url = "order_page.orders_list" %}
+      <!--  -->
+      {% include "components/dashboard-entry-card.html" %}
+    </div>
+    <div class="staff-dashboard-card">
+      {% set entry_name = "Message Management" %}
+      <!--  -->
+      {% set entry_url = "message_page.inbox" %}
+      <!--  -->
+      {% include "components/dashboard-entry-card.html" %}
+    </div>
+  </div>
+</div>
