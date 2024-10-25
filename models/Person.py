@@ -9,15 +9,17 @@ class Person(Base):
 	lastName = Column(String(50))
 	password = Column(String(50))
 	userName = Column(String(50))
+	userType = Column(String(50))
 
 
 
 	# initor
-	def __init__(self, firstName: str, lastName: str, password: str, userName: str) :
+	def __init__(self, firstName: str, lastName: str, password: str, userName: str, userType:str) :
 		self.firstName = firstName
 		self.lastName = lastName
 		self.password = password
 		self.userName = userName
+		self.userType = userType
 
 
 

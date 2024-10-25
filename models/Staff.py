@@ -14,8 +14,8 @@ class Staff(Person.Person, Base):
 	veggie = Column(String(50), nullable=True)
 
 
-	def __init__(self,firstName: str, lastName: str, password: str, userName: str, staffID: int, dateJoined: date, deptName:str,listOfOrder,premadeBoxes,veggie):
-		super().__init__(firstName, lastName, password ,userName) 
+	def __init__(self,firstName: str, lastName: str, password: str, userName: str,userType:str, staffID: int, dateJoined: date, deptName:str,listOfOrder,premadeBoxes,veggie):
+		super().__init__(firstName, lastName, password ,userName,userType) 
 		self.staffID = staffID
 		self.dateJoined = dateJoined
 		self.deptName = deptName
