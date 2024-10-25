@@ -2,7 +2,10 @@
   rel="stylesheet"
   href="{{ url_for('static', filename='styles/login.css') }}"
 />
-
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/index.css') }}"
+/>
 
 <!DOCTYPE html>
 <html>
@@ -10,6 +13,17 @@
     <title>Login</title>
 </head>
 <body>
+    <div class="nav-bar">
+        <ul>
+          <li>
+            <a href="{{ url_for('home') }}"> Home </a>
+          </li>
+          <li><a href="{{ url_for('veggie.veggie') }}">View all Veggie</a> </li>
+          <li><a href="{{ url_for('premadebox.premadebox') }}">Choose you PremadeBox</a> </li>
+          <li><a href="{{ url_for('login.login') }}">Login</a> </li>
+          <li><a href="{{ url_for('logout.logout') }}">logout</a></li>
+        </ul>
+      </div>
     <h1>Login</h1>
     {% if error %}
         <p>Invalid username or password</p>
