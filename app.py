@@ -10,6 +10,7 @@ from controllers.logout import logout_bp
 
 
 app = Flask(__name__)
+app.secret_key = "gemini"
 app.register_blueprint(veggie_bp, url_prefix="/veggie")
 app.register_blueprint(staff_bp, url_prefix="/staff")
 app.register_blueprint(customer_bp, url_prefix="/customer")
