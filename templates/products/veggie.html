@@ -1,3 +1,43 @@
-<h1>
-	veggie
-</h1>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/veggie.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/index.css') }}"
+/>
+
+<body>
+    <div class="nav-bar">
+        <ul>
+          <li>
+            <a href="{{ url_for('home') }}"> Home </a>
+          </li>
+          <li><a href="{{ url_for('veggie.veggie') }}">View all Veggie</a> </li>
+          <li><a href="{{ url_for('premadebox.premadebox') }}">Choose you PremadeBox</a> </li>
+          <li><a href="{{ url_for('login.login') }}">Login</a> </li>
+          <li><a href="{{ url_for('logout.logout') }}">logout</a></li>
+        </ul>
+      </div>
+
+    <div class="vegetable-container">
+        {% for veggie in veggies %}
+        <div class="vegetable-card">
+            <img src="static/{{ veggie.image }}" alt="{{ veggie.vegName }}">
+            <h2>{{ veggie.vegName }}</h2>
+            <span>Price: ${{ veggie.pricePerKiol or veggie.pricePerUnit or veggie.pricePerPack }}</span>
+            {% if veggie.type == 'unitPriceVeggie' %}
+                <span>Per Unit</span>
+            {%elif veggie.type == "weightedVeggie" %}
+                <span>Per Kilogram</span>
+            {%else%}
+            <span>Per Pack</span>
+            {%endif%}
+            <div class="inputbox-container">
+            <input type="number" min="1" value="1" class="quantity-input">
+            <button class="add-to-cart-btn" id={{veggie.id}}>Add to Cart</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
