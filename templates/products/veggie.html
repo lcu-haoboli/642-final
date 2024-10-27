@@ -7,7 +7,7 @@
   href="{{ url_for('static', filename='styles/index.css') }}"
 />
 
-<body>
+
     <div class="nav-bar">
         <ul>
           <li>
@@ -24,7 +24,7 @@
         {% for veggie in veggies %}
         <div class="vegetable-card">
             <img src="static/{{ veggie.image }}" alt="{{ veggie.vegName }}">
-            <h2>{{ veggie.vegName }}</h2>
+            <h2 id="vegName-{{veggie.id}}">{{ veggie.vegName }}</h2>
             <span>Price: ${{ veggie.pricePerKiol or veggie.pricePerUnit or veggie.pricePerPack }}</span>
             {% if veggie.type == 'unitPriceVeggie' %}
                 <span>Per Unit</span>
@@ -34,10 +34,39 @@
             <span>Per Pack</span>
             {%endif%}
             <div class="inputbox-container">
-            <input type="number" min="1" value="1" class="quantity-input">
-            <button class="add-to-cart-btn" id={{veggie.id}}>Add to Cart</button>
+            <input type="number" min="1"  class="quantity-input" id=quantity-{{veggie.id}}>
+            <button class="add-to-cart-btn" id=`addToCartBtn` data-id = `{{veggie.id}}` onclick="addToCart(`{{veggie.id}}`)" > Add to Cart</button>
             </div>
         </div>
         {% endfor %}
     </div>
-</body>
+    <script>
+      
+      const addToCart = (productId) => {
+        console.log("clcik", productId)
+        const inputEleId = `quantity-${productId}`.toString()
+        const textValueOfQuantity =  document.getElementById(inputEleId).value
+        const quantity = Number(document.getElementById(inputEleId).value)
+        const productName = document.getElementById(`vegName-${productId}`.toString()).textContent
+        console.log(document)
+        console.log(inputEleId)
+        const itemsInCart = JSON.parse(localStorage.getItem('itemsInCart')) || [];
+        const indexOfPorduct = itemsInCart.findIndex(item => item.productId === productId);
+        if(indexOfPorduct !== -1){
+          itemsInCart[indexOfPorduct].quantity = quantity + Number(itemsInCart[indexOfPorduct].quantity);
+        }else{
+          itemsInCart.push(
+            {
+              productId,
+              productName,
+              quantity
+            }
+          )
+        }
+    
+        localStorage.setItem("itemsInCart", JSON.stringify(itemsInCart))
+        console.log("product added to cart: ", itemsInCart)
+      }
+        
+    </script>
+
