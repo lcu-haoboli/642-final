@@ -7,66 +7,112 @@
   href="{{ url_for('static', filename='styles/index.css') }}"
 />
 
+<div class="nav-bar">
+  <ul>
+    <li>
+      <a href="{{ url_for('home') }}"> Home </a>
+    </li>
+    <li><a href="{{ url_for('veggie.veggie') }}">View all Veggie</a></li>
+    <li>
+      <a href="{{ url_for('premadebox.premadebox') }}">Choose you PremadeBox</a>
+    </li>
+    <li><a href="{{ url_for('login.login') }}">Login</a></li>
+    <li><a href="{{ url_for('logout.logout') }}">logout</a></li>
+    <li>
+      <a href="{{ url_for('cart.cart') }}" > cart </a>
+    </li>
+  </ul>
+</div>
 
-    <div class="nav-bar">
-        <ul>
-          <li>
-            <a href="{{ url_for('home') }}"> Home </a>
-          </li>
-          <li><a href="{{ url_for('veggie.veggie') }}">View all Veggie</a> </li>
-          <li><a href="{{ url_for('premadebox.premadebox') }}">Choose you PremadeBox</a> </li>
-          <li><a href="{{ url_for('login.login') }}">Login</a> </li>
-          <li><a href="{{ url_for('logout.logout') }}">logout</a></li>
-        </ul>
-      </div>
-
-    <div class="vegetable-container">
-        {% for veggie in veggies %}
-        <div class="vegetable-card">
-            <img src="static/{{ veggie.image }}" alt="{{ veggie.vegName }}">
-            <h2 id="vegName-{{veggie.id}}">{{ veggie.vegName }}</h2>
-            <span>Price: ${{ veggie.pricePerKiol or veggie.pricePerUnit or veggie.pricePerPack }}</span>
-            {% if veggie.type == 'unitPriceVeggie' %}
-                <span>Per Unit</span>
-            {%elif veggie.type == "weightedVeggie" %}
-                <span>Per Kilogram</span>
-            {%else%}
-            <span>Per Pack</span>
-            {%endif%}
-            <div class="inputbox-container">
-            <input type="number" min="1"  class="quantity-input" id=quantity-{{veggie.id}}>
-            <button class="add-to-cart-btn" id=`addToCartBtn` data-id = `{{veggie.id}}` onclick="addToCart(`{{veggie.id}}`)" > Add to Cart</button>
-            </div>
-        </div>
-        {% endfor %}
+<div class="vegetable-container">
+  {% for veggie in veggies %}
+  <div class="vegetable-card">
+    <img
+      src="{{
+              url_for('static', filename='images/'+veggie.vegName+'.jpg')
+            }}"
+      alt="{{ veggie.vegName }}"
+    />
+    <h2 id="vegName-{{veggie.id}}">{{ veggie.vegName }}</h2>
+    <span id="price-{{veggie.id}}" price="{{veggie.pricePerKiol or veggie.pricePerUnit or
+      veggie.pricePerPack}}">Price: ${{ veggie.pricePerKiol or veggie.pricePerUnit or
+      veggie.pricePerPack }}</span
+    >
+    {% if veggie.type == 'unitPriceVeggie' %}
+    <span>Per Unit</span>
+    {%elif veggie.type == "weightedVeggie" %}
+    <span>Per Kilogram</span>
+    {%else%}
+    <span>Per Pack</span>
+    {%endif%}
+    <div class="inputbox-container">
+      <input
+        type="number"
+        min="1"
+        class="quantity-input"
+        id="quantity-{{veggie.id}}"
+      />
+      <button
+        class="add-to-cart-btn"
+        id="`addToCartBtn`"
+        data-id="`{{veggie.id}}`"
+        onclick="addToCart(`{{veggie.id}}`)"
+      >
+        Add to Cart
+      </button>
     </div>
-    <script>
-      
-      const addToCart = (productId) => {
-        console.log("clcik", productId)
-        const inputEleId = `quantity-${productId}`.toString()
-        const textValueOfQuantity =  document.getElementById(inputEleId).value
-        const quantity = Number(document.getElementById(inputEleId).value)
-        const productName = document.getElementById(`vegName-${productId}`.toString()).textContent
-        console.log(document)
-        console.log(inputEleId)
-        const itemsInCart = JSON.parse(localStorage.getItem('itemsInCart')) || [];
-        const indexOfPorduct = itemsInCart.findIndex(item => item.productId === productId);
-        if(indexOfPorduct !== -1){
-          itemsInCart[indexOfPorduct].quantity = quantity + Number(itemsInCart[indexOfPorduct].quantity);
-        }else{
-          itemsInCart.push(
-            {
-              productId,
-              productName,
-              quantity
-            }
-          )
-        }
-    
-        localStorage.setItem("itemsInCart", JSON.stringify(itemsInCart))
-        console.log("product added to cart: ", itemsInCart)
-      }
-        
-    </script>
+  </div>
+  {% endfor %}
+</div>
+<script>
+  const addToCart = (productId) => {
+    console.log("clcik", productId);
+    const inputEleId = `quantity-${productId}`.toString();
+    const textValueOfQuantity = document.getElementById(inputEleId).value;
+    const quantity = Number(document.getElementById(inputEleId).value);
+    const priceEle = document.getElementById(`price-${productId}`)
+    const price = Number(priceEle.getAttribute("price"))
+    const productName = document.getElementById(
+      `vegName-${productId}`.toString()
+    ).textContent;
+    console.log(document);
+    console.log(inputEleId);
+    const itemsInCart = JSON.parse(localStorage.getItem("itemsInCart")) || [];
+    const indexOfPorduct = itemsInCart.findIndex(
+      (item) => item.productId === productId
+    );
+    if (indexOfPorduct !== -1) {
+      itemsInCart[indexOfPorduct].quantity =
+        quantity + Number(itemsInCart[indexOfPorduct].quantity);
+        itemsInCart[indexOfPorduct].total = itemsInCart[indexOfPorduct].quantity * price
+    } else {
+      const total = quantity * price
+      itemsInCart.push({
+        productId,
+        productName,
+        quantity,
+        price,
+        total
+      });
+    }
 
+    localStorage.setItem("itemsInCart", JSON.stringify(itemsInCart));
+    const cartItems = localStorage.getItem("itemsInCart");
+    fetch("/veggie", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        cartItems: cartItems,
+      }),
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    console.log("product added to cart: ", itemsInCart);
+  };
+</script>
