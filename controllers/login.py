@@ -16,6 +16,7 @@ def login():
 			userType = person.userType
 			isAuthenticated = isAuthenticatedUser(password_input, passwordInDB)
 			if isAuthenticated:
+				session["userId"] = person.id
 				session['username'] = username_to_find
 				session['logged_in'] = True
 				session['userType'] = userType
