@@ -1,3 +1,27 @@
-<h1>
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/index.css') }}"
+/>
+
+
+<div class="nav-bar">
+	<ul>
+	  <li>
+		<a href="{{ url_for('home') }}"> Home </a>
+	  </li>
+	  <li><a href="{{ url_for('veggie.veggie') }}">View all Veggie</a> </li>
+	  <li><a href="{{ url_for('premadebox.premadebox') }}">Choose you PremadeBox</a> </li>
+	  <li><a href="{{ url_for('login.login') }}">Login</a> </li>
+	  <li><a href="{{ url_for('logout.logout') }}">logout</a></li>
+	  <li>
+		<a href="{{ url_for('cart.cart') }}" onclick="sendCartItems()">
+		cart
+		</a>
+	</li>
+	</ul>
+  </div>
+
+  <h1>
 	premadebox
 </h1>
