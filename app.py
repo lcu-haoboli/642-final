@@ -6,6 +6,7 @@ from controllers.customer import customer_bp
 from controllers.login import login_bp
 from controllers.premadebox import premadebox_bp
 from controllers.logout import logout_bp
+from controllers.cart import cart_bp
 
 
 
@@ -17,6 +18,7 @@ app.register_blueprint(customer_bp, url_prefix="/customer")
 app.register_blueprint(login_bp, url_prefix="/login")
 app.register_blueprint(premadebox_bp, url_prefix="/premadebox")
 app.register_blueprint(logout_bp, url_prefix="/logout")
+app.register_blueprint(cart_bp, url_prefix="/cart")
 
 @app.route("/")
 def home():
