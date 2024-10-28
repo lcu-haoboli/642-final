@@ -1,0 +1,101 @@
+<link
+rel="stylesheet"
+href="{{ url_for('static', filename='styles/cart.css') }}"
+/>
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/index.css') }}"
+/>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+</head>
+<body>
+	<div class="nav-bar">
+		<ul>
+		  <li>
+			<a href="{{ url_for('home') }}"> Home </a>
+		  </li>
+		  <li><a href="{{ url_for('veggie.veggie') }}">View all Veggie</a> </li>
+		  <li><a href="{{ url_for('premadebox.premadebox') }}">Choose you PremadeBox</a> </li>
+		  <li><a href="{{ url_for('login.login') }}">Login</a> </li>
+		  <li><a href="{{ url_for('logout.logout') }}">logout</a></li>
+		  <li><a href="{{ url_for('cart.cart') }}">
+				cart
+			</a>
+		</li>
+		</ul>
+	  </div>
+    <h1>Your Cart</h1>
+    <div class="container">
+        <div class="cart-table">
+        <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            {% for item in cart_items %}
+            
+            <tr>
+                <td>{{ item['productName'] }}</td>
+                <td>{{ item['quantity'] }}</td>
+                <td>{{ item['price'] }}</td>
+                <td>{{ item['total'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">Total</td>
+                <td>{{ total_price }}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div class="checkout-form">
+
+    <form method="POST" action="{{ url_for('cart.checkout') }}">
+        <label for="payment_method">Payment Method:</label>
+        <select id="payment_method" name="payment_method">
+            <option value="credit_card">Credit Card</option>
+            <option value="debit_card">Debit Card</option>
+        </select>
+        <button type="submit">Checkout</button>
+    </form>
+</div>
+</div>
+</body>
+<script>
+const sendCartItems = () =>  {
+  const cartItems = localStorage.getItem('itemsInCart')
+  fetch('/cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "cartItems" : cartItems
+      })
+    })
+    .then(response => {
+      console.log(response)
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+
+
+
+
+</script>
+</html>
