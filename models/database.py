@@ -1,13 +1,17 @@
 from sqlalchemy import create_engine
-from . import Veggie
-from . import Person
-from .import Staff
-from . import Customer
 from base import Base, session
+from .Veggie import Veggie
+from .Person import Person
+from .Staff import Staff
+from .Customer import Customer
 from datetime import date
 from .Veggie import UnitPriceVeggie
 from .Veggie import WeightedVeggie
 from .Veggie import PackVeggie
+from .Order import Order
+from .Payment import Payment
+from .OrderLine import OrderLine
+
 
 engine = create_engine("mysql+mysqlconnector://root:password@localhost:3306/veggie_shop",echo=True)
 
@@ -18,9 +22,9 @@ def init_db():
 
 	# person = Person.Person()
 	today =  date.today()
-	staff = Staff.Staff("kevin", "li", "1234", "kevinli", "staff", 1, today, "hello-dep", "abcd",None, None)
-	staff2 = Staff.Staff("amy", "luo", "1234", "kevinli", "staff", 2, today, "hello-dep", "abcd",None, None)
-	cust =Customer.Customer("kevinb", "lib", "1234", "kevinli","customer",3, "address", 0,0)
+	staff = Staff("kevin", "li", "1234", "kevinli", "staff", 1, today, "hello-dep", "abcd",None, None)
+	staff2 = Staff("amy", "luo", "1234", "kevinlia", "staff", 2, today, "hello-dep", "abcd",None, None)
+	cust = Customer("kevinb", "lib", "1234", "kevinlib","customer",3, "address", 0,0)
 
 	#  add veggie to DB :
 	veggies = [
