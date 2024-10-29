@@ -6,6 +6,7 @@ from models.Payment import Payment
 from models.Payment import CreditCardPayment
 from models.Payment import DebitCardPayment
 from models.OrderLine import OrderLine
+from models.CorporateCustomer import CorporateCustomer
 from datetime import date
 from models.Customer import Customer
 from sqlalchemy.sql import text
@@ -43,16 +44,21 @@ def allCustomer():
 
 @staff_bp.route("/all_orders")
 def allOrder():
-	# query
-	orders_custs = db_session.query(Order,Customer).join(Customer).all()
-	list_orders_custs = []
-	for order_cust in orders_custs:
-		order = order_cust[0].__dict__
-		cust = order_cust[1].__dict__
-		list_orders_custs.append({**order, **cust})
-	print(list_orders_custs)
-	for item in list_orders_custs:
-		print(item)
-	return render_template("staff/all_orders.html", orders = list_orders_custs)
+	try:
+		orders_custs = db_session.query(Order,Customer).join(Customer).all()
+		orders_corp = db_session.query(Order,CorporateCustomer).join(CorporateCustomer).all()
+		list_orders_custs = []
+		for order_cust in orders_custs:
+			order = order_cust[0].__dict__
+			cust = order_cust[1].__dict__
+			list_orders_custs.append({**order, **cust})
+		print(list_orders_custs)
+		for item in list_orders_custs:
+			print(item)
+		return render_template("staff/all_orders.html", orders = list_orders_custs)
+	except Exception as e:
+		flash(str(e), "error")
+		return render_template("staff/all_orders.html", orders = [])
+		
 
 	
