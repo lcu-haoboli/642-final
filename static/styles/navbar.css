@@ -27,7 +27,7 @@
     color: #fff;
 }
 
-ul li:last-child {
+#cart-icon {
     margin-right: 40px;
     margin-left: auto;
   }
