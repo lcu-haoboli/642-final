@@ -1,4 +1,9 @@
-/* ... (rest of your CSS) */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
 .quantity-input {
     width: 50px;

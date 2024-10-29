@@ -1,0 +1,26 @@
+
+.nav-bar {
+	font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+}
+
+.nav-bar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-bar ul li {
+    margin: 0 10px;
+}
+
+.nav-bar ul li a {
+    text-decoration: none;
+    color: #fff;
+}

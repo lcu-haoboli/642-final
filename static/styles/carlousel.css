@@ -1,0 +1,71 @@
+/* Reset and Basic Styling */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+  }
+  
+  body {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	font-family: Arial, sans-serif;
+	background-color: #f5f5f5;
+  }
+  
+  /* Carousel Container */
+  .carousel {
+	position: relative;
+	width: 600px;
+	overflow: hidden;
+	border-radius: 10px;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Carousel Images Wrapper */
+  .carousel-images {
+	display: flex;
+	transition: transform 0.5s ease;
+  }
+  
+  /* Individual Image Styling */
+  .carousel-image {
+	min-width: 100%;
+	height: auto;
+	display: block;
+	flex-shrink: 0;
+  }
+  
+  /* Navigation Buttons */
+  button.prev,
+  button.next {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
+	border: none;
+	padding: 12px;
+	cursor: pointer;
+	font-size: 24px;
+	border-radius: 50%;
+	outline: none;
+	transition: background-color 0.3s ease;
+  }
+  
+  button.prev {
+	left: 10px;
+  }
+  
+  button.next {
+	right: 10px;
+  }
+  
+  /* Button Hover Effect */
+  button.prev:hover,
+  button.next:hover {
+	background-color: rgba(0, 0, 0, 0.8);
+  }
+  
