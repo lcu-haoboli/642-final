@@ -1,0 +1,46 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/order_by_cust_id.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/index.css') }}"
+/>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Customers</title>
+</head>
+<body>
+  {% import "navbar.html" as components %}
+
+  {{ components.navbar() }}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Order Status</th>
+                <th>Delivery Address</th>
+                <th>Customer</th>
+                <th>Username</th>
+                <th>Check Order Detils</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order['orderId'] }}</td>
+                <td>{{ order['orderStatus'] }}</td>
+                <td>{{ order['custAddress'] }}</td>
+                <td>{{ order['firstName'] + '  '+ order['lastName'] }}</td>
+                <td>{{ order['userName'] }}</td>
+				<td><a href="{{url_for("order.details", id = order['orderId'] )}}"><button>order details</button></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
