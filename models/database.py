@@ -11,6 +11,7 @@ from .Veggie import PackVeggie
 from .Order import Order
 from .Payment import Payment
 from .OrderLine import OrderLine
+from .CorporateCustomer import CorporateCustomer
 
 
 engine = create_engine("mysql+mysqlconnector://root:password@localhost:3306/veggie_shop",echo=True)
@@ -22,9 +23,10 @@ def init_db():
 
 	# person = Person.Person()
 	today =  date.today()
-	staff = Staff("kevin", "li", "1234", "kevinli", "staff", 1, today, "hello-dep", "abcd",None, None)
-	staff2 = Staff("amy", "luo", "1234", "kevinlia", "staff", 2, today, "hello-dep", "abcd",None, None)
-	cust = Customer("kevinb", "lib", "1234", "kevinlib","customer",3, "address", 0,0)
+	staff = Staff("kevin", "li", "1", "kevinli", "staff", 1, today, "hello-dep", "abcd",None, None)
+	staff2 = Staff("amy", "luo", "1", "kevinlia", "staff", 2, today, "hello-dep", "abcd",None, None)
+	cust = Customer("kevinb", "lib", "1", "kevinlib","customer",3, "address", 0,0)
+	corp1 = CorporateCustomer(4,"veggie", "retail",1,"veggie-retail","corporateCustomer",0.2,200,20)
 
 	#  add veggie to DB :
 	veggies = [
@@ -54,5 +56,6 @@ def init_db():
 	session.add(staff)
 	session.add(staff2)
 	session.add(cust)
+	session.add(corp1)
 	session.commit()
 	
