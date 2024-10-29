@@ -19,19 +19,7 @@ class Customer(Person.Person):
 	def getCustAddress(self):
 		return self.custAddress
 	
-class CorporateCustomer(Customer):
-	# mapping
-	__tablename__ = "corporateCustomer"
-	corpCustId = Column(Integer, ForeignKey("customer.custId"), primary_key=True)
-	discountRate = Column(DECIMAL(precision=5, scale=2))
-	maxCredit = Column(DECIMAL(precision=5, scale=2))
-	minBalance = Column(DECIMAL(precision=5, scale=2))
 
-	def __init__(self, firstName, lastName, password, userName, custId, custAddress, custBalance, maxOwing, discountRate,maxCredit,minBalance):
-		super().__init__(firstName, lastName, password, userName, custId, custAddress, custBalance, maxOwing)
-		self.discountRate = discountRate
-		self.maxCredit = maxCredit
-		self.minBalance = minBalance
 
 
 
