@@ -1,5 +1,6 @@
 
 .nav-bar {
+    width: 100%;
 	font-family: Arial, sans-serif;
     display: flex;
     justify-content: space-between;
@@ -10,6 +11,7 @@
 }
 
 .nav-bar ul {
+    width: 100%;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -24,3 +26,8 @@
     text-decoration: none;
     color: #fff;
 }
+
+ul li:last-child {
+    margin-right: 40px;
+    margin-left: auto;
+  }
