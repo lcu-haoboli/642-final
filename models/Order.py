@@ -5,7 +5,7 @@ class Order(Base):
 	# mapping
 	__tablename__ = "order"
 	orderId = Column(Integer, primary_key=True)
-	orderCustomer = Column(Integer, ForeignKey("customer.custId"))
+	orderCustomer = Column(Integer, ForeignKey("customer.custId"), ForeignKey("corporateCustomer.corpCustId"))
 	orderDate = Column(DATETIME)
 	orderStatus = Column(String(50))
 
