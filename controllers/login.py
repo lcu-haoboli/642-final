@@ -30,7 +30,6 @@ def login():
 					corp = db_session.query(CorporateCustomer).filter(CorporateCustomer.corpCustId == person.id).first()
 					session["minBalance"] = corp.minBalance
 					session["maxCredit"] = corp.maxCredit
-				flash("Login successful!", "success")
 				return redirect(url_for("home"))
 			else:
 				flash("Incorrect password. Please try again.", "error")
