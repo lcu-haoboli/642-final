@@ -1,37 +1,57 @@
+
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='styles/staff-dashboard.css') }}"
+  href="{{ url_for('static', filename='styles/staff_dashboard.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/index.css') }}"
 />
 
-<div class="account-content--container">
-  <div class="account-ccount--header">
-    Welcome / {{ user["username"] }}
-    {% set role = 'staff' %}
-    {% include 'components/role-badge.html' %}
-  </div>
+
+{% import "navbar.html" as components %}
+
+{{ components.navbar() }}
 
 
   <div class="account-content--container">
     <div class="staff-dashboard-card">
-      {% set entry_name = "Product Management" %}
-      <!--  -->
-      {% set entry_url = "product_page.get_list_of_product" %}
-      <!--  -->
-      {% include "components/dashboard-entry-card.html" %}
+      <a href="{{url_for('staff.allCustomer')}}">
+        <button>All Customers</button>
+      </a>
     </div>
     <div class="staff-dashboard-card">
-      {% set entry_name = "Order Management" %}
-      <!--  -->
-      {% set entry_url = "order_page.orders_list" %}
-      <!--  -->
-      {% include "components/dashboard-entry-card.html" %}
+      <a href="{{url_for("staff.allOrder")}}">
+        <button>Current Orders</button>
+      </a>
     </div>
     <div class="staff-dashboard-card">
-      {% set entry_name = "Message Management" %}
-      <!--  -->
-      {% set entry_url = "message_page.inbox" %}
-      <!--  -->
-      {% include "components/dashboard-entry-card.html" %}
+      <a href="{{url_for("staff.allOrder")}}">
+        <button>Previous Orders</button>
+      </a>
+    </div>
+    <div class="staff-dashboard-card">
+      <a href="{{url_for("staff.allOrder")}}">
+        <button>Most popular item</button>
+      </a>
+    </div>
+    <!--  total sales for the week -->
+    <div class="staff-dashboard-card">
+      <a href="{{url_for("staff.allOrder")}}">
+        <button>Total sales for the week</button>
+      </a>
+    </div>
+        <!--  total sales for the month -->
+        <div class="staff-dashboard-card">
+          <a href="{{url_for("staff.allOrder")}}">
+            <button>Total sales for the month</button>
+          </a>
+        </div>
+            <!--  total sales for the year -->
+    <div class="staff-dashboard-card">
+      <a href="{{url_for("staff.allOrder")}}">
+        <button>Total sales for the year</button>
+      </a>
     </div>
   </div>
-</div>
+
