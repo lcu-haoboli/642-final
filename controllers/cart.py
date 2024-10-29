@@ -11,7 +11,15 @@ db_session = Session()
 cart_bp = Blueprint("cart", __name__, static_folder="static", template_folder="templates")
 @cart_bp.route('/', methods = ["GET", "POST"])
 def cart():
+    # get owning credit
+    if session.get("logged_in") != True:
+        flash("Login First!", "error")
+        return redirect(url_for("login.login"))
     cart_items = session.get('cartItems')
+    maxCredit = session.get("maxCredit") 
+    minBalance = session.get("minBalance")
+    custBalance = session.get("custBalance")
+    userType = session.get("userType")
     total_price = 0
     if cart_items:
         for item in cart_items:
@@ -20,13 +28,14 @@ def cart():
         return render_template('cart.html', cart_items=cart_items, total_price=total_price)
     else: 
         session["total_amount_to_pay"] = total_price
-        return render_template('cart.html', cart_items=[], total_price=0)
+        return render_template('cart.html', cart_items=[], total_price=0, maxCredit = maxCredit , owning = 0, minBalance=minBalance, custBalance=custBalance, userType =userType)
 
 
 @cart_bp.route('/checkout', methods=['POST'])
 def checkout():
     try:
         if session.get("userId") == None:
+            flash("You need to Login first", "error")
             return redirect(url_for("login.login"))
         custId =  int(session["userId"])
         total_amount = session.get("total_amount_to_pay")

@@ -1,6 +1,6 @@
 <link
-rel="stylesheet"
-href="{{ url_for('static', filename='styles/cart.css') }}"
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/cart.css') }}"
 />
 
 <link
@@ -10,81 +10,86 @@ href="{{ url_for('static', filename='styles/cart.css') }}"
 
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Shopping Cart</title>
-</head>
-<body>
-{% import "navbar.html" as components %}
-{{ components.navbar() }}
-    <h1>Your Cart</h1>
-    {% import "message.html" as msgcomp %}
-    {{ msgcomp.message() }}
+  </head>
+  <body>
+    {% import "navbar.html" as components %} {{ components.navbar() }}
+    <h1 style="margin-left: 20px">Your Cart</h1>
+    {% import "message.html" as msgcomp %} {{ msgcomp.message() }}
     <div class="container">
-        <div class="cart-table">
+      <div class="cart-table">
         <table>
-        <thead>
+          <thead>
             <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total</th>
             </tr>
-        </thead>
-        <tbody>
-            
+          </thead>
+          <tbody>
             {% for item in cart_items %}
-            
+
             <tr>
-                <td>{{ item['productName'] }}</td>
-                <td>{{ item['quantity'] }}</td>
-                <td>{{ item['price'] }}</td>
-                <td>{{ item['total'] }}</td>
+              <td>{{ item['productName'] }}</td>
+              <td>{{ item['quantity'] }}</td>
+              <td>$ {{ item['price'] }}</td>
+              <td>$ {{ item['total'] }}</td>
             </tr>
             {% endfor %}
-        </tbody>
-        <tfoot>
+          </tbody>
+          <tfoot>
             <tr>
-                <td colspan="3">Total</td>
-                <td>{{ total_price }}</td>
+              <td colspan="3">Total</td>
+              <td>$ {{ total_price }}</td>
             </tr>
-        </tfoot>
-    </table>
-</div>
-<div class="checkout-form">
-
-    <form method="POST" action="{{ url_for('cart.checkout') }}">
-        <label for="payment_method">Payment Method:</label>
-        <select id="payment_method" name="payment_method">
-            <option value="credit_card">Credit Card</option>
-            <option value="debit_card">Debit Card</option>
-        </select>
-        <button type="submit">Checkout</button>
-    </form>
-</div>
-</div>
-</body>
-<script>
-const sendCartItems = () =>  {
-  const cartItems = localStorage.getItem('itemsInCart')
-  fetch('/cart', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        "cartItems" : cartItems
+          </tfoot>
+        </table>
+      </div>
+      <div class="checkout-form">
+        <div class="checkout-form-credit">
+          {%if userType == "corporateCustomer"%}
+          <p>Your max credit is: $ {{maxCredit}}</p>
+          <p>Your min balance is: $ {{minBalance}}</p>
+          {%endif%}
+          {%if userType == "customer"%}
+          <p>You Current owning is: $ {{owning}}</p>
+          <p>You Current balance is: $ {{custBalance}}</p> 
+          {%endif%}
+        </div>
+        <div class="checkout-form-box">
+          <form method="POST" action="{{ url_for('cart.checkout') }}">
+            <label for="payment_method">Payment Method:</label>
+            <select id="payment_method" name="payment_method">
+              <option value="credit_card">Credit Card</option>
+              <option value="debit_card">Debit Card</option>
+              <option value="charge_account">Charge Account</option>
+            </select>
+            <button type="submit">Checkout</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const sendCartItems = () => {
+      const cartItems = localStorage.getItem("itemsInCart");
+      fetch("/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cartItems: cartItems,
+        }),
       })
-    })
-    .then(response => {
-      console.log(response)
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }
-
-
-
-
-</script>
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    };
+  </script>
 </html>
