@@ -1,0 +1,38 @@
+{% macro navbar() %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/navbar.css') }}"
+/>
+
+<div class="nav-bar">
+  <ul>
+    <li>
+      <a href="{{ url_for('home') }}"> Home </a>
+    </li>
+    <li><a href="{{ url_for('veggie.veggie') }}">View all Veggie</a></li>
+    <li>
+      <a href="{{ url_for('premadebox.premadebox') }}">Choose you PremadeBox</a>
+    </li>
+    {%if session.get("logged_in") != True %}
+    <li><a href="{{ url_for('login.login') }}">Login</a></li>
+    {% endif %}
+	 {%if session.get("logged_in") == True %}
+    <li>
+      <a href="{{ url_for('logout.logout') }}" onclick="cleanLocalStorage()"
+        >logout</a
+      >
+    </li>
+    {% endif %}
+	{% if session.get("userType") == "staff" and session.get("logged_in") == True %}
+    <li>
+        <a href="{{ url_for('staff.dashboard') }}">DashBoard</a>
+    </li>
+	{% endif %}
+    <li>
+      <a href="{{ url_for('cart.cart') }}"> cart </a>
+    </li>
+  </ul>
+</div>
+
+{% endmacro %}
