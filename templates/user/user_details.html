@@ -1,0 +1,29 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/index.css') }}"
+/>
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/order_by_cust_id.css') }}"
+/>
+<body>
+  {% import "navbar.html" as components %} {{ components.navbar() }}
+
+  <h2>Basic Information</h2>
+  <div>
+    <p>User Name: {{basic.username}}</p>
+    <p>Fist Name: {{basic.firstName}}</p>
+    <p>Last Name: {{basic.lastName}}</p>
+    <p>User Type: {basic.userType}</p>
+  </div>
+
+  {%if userType == "staff%}
+  {%endif%}
+
+  {%if userType == "customer%}
+  {%endif%}
+
+  {%if userType == "corporateCustomer%}
+  {%endif%}
+</body>
