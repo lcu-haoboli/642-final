@@ -20,8 +20,12 @@ def login():
 				session['username'] = username_to_find
 				session['logged_in'] = True
 				session['userType'] = userType
+				flash("Login successful!", "success")
 				return redirect(url_for("home"))
-		return render_template("login.html", message= {"User Name Not Exist"})
+			else:
+				flash("Incorrect password. Please try again.", "error")
+		else:
+			flash("User not found. Please check your username.", "error")
 	return render_template("login.html")
 
 def isAuthenticatedUser(passwordInput, passwordInDB):
