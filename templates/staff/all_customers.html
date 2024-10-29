@@ -1,0 +1,49 @@
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/index.css') }}"
+/>
+
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/order_by_cust_id.css') }}"
+/>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Customers</title>
+</head>
+<body>
+  {% import "navbar.html" as components %}
+
+  {{ components.navbar() }}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Address</th>
+                <th>Customer Balance</th>
+                <th>Max Owning</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in customers %}
+            <tr>
+                <td>{{ data['id'] }}</td>
+                <td>{{ data['address'] }}</td>
+                <td>{{ data['custBalance'] }}</td>
+                <td>{{ data['maxOwning'] }}</td>
+                <td>{{ data['firstname'] }}</td>
+                <td>{{ data['lastname'] }}</td>
+                <td>{{ data['username'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
