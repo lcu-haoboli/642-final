@@ -14,11 +14,12 @@
 </head>
 <body>
   {% import "navbar.html" as components %}
-  {% import "message.html" as msgcomp %}
-  
+
+
 
 {{ components.navbar() }}
     <h1>Login</h1>
+    {% import "message.html" as msgcomp %}
     {{ msgcomp.message() }}
     <form method="POST">
         <label for="username">Username:</label>
