@@ -1,0 +1,35 @@
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/order_by_cust_id.css') }}"
+/>
+
+
+<body>
+	{% import "navbar.html" as components %}
+
+	{{ components.navbar() }}
+	<h1>Order Data</h1>
+	<h4>Order Data of Customer: {{userName}}</h4>
+
+	<table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer ID</th>
+                <th>Order Date</th>
+                <th>Order Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.orderId }}</td>
+                <td>{{ order.orderCustomer }}</td>
+                <td>{{ order.orderDate }}</td>
+                <td>{{ order.orderStatus }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
