@@ -7,23 +7,70 @@
   rel="stylesheet"
   href="{{ url_for('static', filename='styles/order_by_cust_id.css') }}"
 />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/user_details.css') }}"
+/>
 <body>
   {% import "navbar.html" as components %} {{ components.navbar() }}
+  <div class="container">
+    <h2 class="basic-info-container">Basic Information</h2>
+    {%if basic != None%}
+    <div class="basic-info-container">
+      <p>User Name: {{basic.userName}}</p>
+      <p>Fist Name: {{basic.firstName}}</p>
+      <p>Last Name: {{basic.lastName}}</p>
+    </div>
+    {%endif%} {%if data != None%}
+    <div class="basic-info-container">
+      {%if userType == "staff" %}
+      <div class="userType-info-container">
+        <p>Staff ID is: {{data.staffId}}</p>
+        <p>date of Joined is: {{data.dateJoined}}</p>
+        <p>Department: {{data.deptName}}</p>
+      </div>
+      {%endif%} {%if userType == "customer" %}
+      <div class="userType-info-container">
+        <p>Max Owning is: {{data.maxOwning}}</p>
+        <p>Balance is: {{data.custBalance}}</p>
+        <p>Delivery Address: {{data.custAddress}}</p>
+      </div>
+      {%endif%} {%if userType == "corporateCustomer" %}
+      <div class="userType-info-container">
+        <p>Max Credit is: ${{data.maxCredit}}</p>
+        <p>Discount Rate is: {{data.discountRate * 100}}%</p>
+        <p>Max Owning is: ${{data.maxOwning}}</p>
+        <p>Min Balance is: ${{data.minBalance}}</p>
+      </div>
+      {%endif%}
+    </div>
+    {% endif %}
+     {%if userType == "corporateCustomer" or userType == "customer"
+    %}
 
-  <h2>Basic Information</h2>
-  <div>
-    <p>User Name: {{basic.username}}</p>
-    <p>Fist Name: {{basic.firstName}}</p>
-    <p>Last Name: {{basic.lastName}}</p>
-    <p>User Type: {basic.userType}</p>
+    <div class="order-table-container">
+      <h2 class="order-title">Order Information</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+
+            <th>Order Date</th>
+            <th>Order Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td>{{ order.orderId }}</td>
+
+            <td>{{ order.orderDate }}</td>
+            <td>{{ order.orderStatus }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {%endif%}
   </div>
-
-  {%if userType == "staff%}
-  {%endif%}
-
-  {%if userType == "customer%}
-  {%endif%}
-
-  {%if userType == "corporateCustomer%}
-  {%endif%}
 </body>

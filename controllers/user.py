@@ -23,17 +23,17 @@ def details():
 		userType = session.get("userType")
 		person = db_session.query(Person).filter(Person.id == id).first()
 		data = None
+		order_date = None
+		if userType != "staff":
+			order_date = db_session.query(Order).filter(Order.orderCustomer == id).all()
 		if userType == "staff":
 			data = db_session.query(Staff).filter(Staff.staffId == id).first()
-			
-		if userType == "customer":
+		elif userType == "customer":
 			data = db_session.query(Customer).filter(Customer.custId == id).first()
-			
-		if userType == "corporateCustomer":
+		elif userType == "corporateCustomer":
 			data = db_session.query(CorporateCustomer).filter(CorporateCustomer.corpCustId == id).first()
-			
-		print(data)
-		return render_template("user/user_details.html", basic = person, data = data)
+		return render_template("user/user_details.html", basic = person, data = data, userType = userType, orders= order_date)
 	except Exception as e:
 		print(e)
-		pass
+		return render_template("user/user_details.html", basic = None, data = None, order_date = None)
+		
