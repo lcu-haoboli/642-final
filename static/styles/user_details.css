@@ -9,13 +9,14 @@ h2 {
 	margin:  20px auto;
   }
   
-  .basic-info-container, .userType-info-container {
+  .basic-info-container{
 	border: 1px solid #e0e0e0;
 	background-color: #fff;
 	padding: 15px;
 	border-radius: 5px;
 	margin-bottom: 20px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border-left: 5px solid #4a90e2;
   }
   
   
@@ -25,8 +26,9 @@ h2 {
 	color: #333;
 	margin: 10px 0;
   }
+
   .userType-info-container {
-	border-left: 5px solid #4a90e2;
+	margin-bottom: 20px;
   }
   
 
@@ -41,7 +43,7 @@ h2 {
 
 
 .order-title {
-	color: #d9534f;
+	color: #4a90e2;
 	font-size: 22px;
 	margin-top: 30px;
 	margin-bottom: 15px;

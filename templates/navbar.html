@@ -33,6 +33,11 @@
       <a href="{{ url_for('staff.dashboard') }}">DashBoard</a>
     </li>
     {% endif %}
+    {% if session.get("userType") != "staff" %}
+    <li>
+      <a href="{{ url_for('user.myOrders') }}">My Order</a>
+    </li>
+    {% endif %}
      {% if session.get("userType") != "staff" %}
     <li id="cart-icon">
       <div>

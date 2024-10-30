@@ -11,6 +11,7 @@ from datetime import date
 from models.CorporateCustomer import CorporateCustomer
 from models.Customer import Customer
 from sqlalchemy.sql import text
+from time import time
 db_session = Session()
 
 
@@ -36,4 +37,17 @@ def details():
 	except Exception as e:
 		print(e)
 		return render_template("user/user_details.html", basic = None, data = None, order_data = None)
+
+@user_bp.route("/myorder")	
+def myOrders():
+	try:
+		id = session.get("userId")
+		userType = session.get("userType")
+		db_session.flush()
+		if userType == "customer" or userType == "corporateCustomer":
+			order_data = db_session.query(Order).filter(Order.orderCustomer == id).all()
+			return render_template("user/manage_order.html",orders = order_data)
+	except Exception as e:
+		pass
+
 		

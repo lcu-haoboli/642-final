@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for,Blueprint,json, session,flash
+from flask import jsonify, render_template, request, redirect, url_for,Blueprint,json, session,flash
 from base import Session
 from models.Order import Order
 from models.Payment import Payment
@@ -34,25 +34,30 @@ def getOrdersByCustomerId(id):
 
 @order_bp.route("/<id>")
 def details(id):
-	order_info = db_session.query(Order).filter(Order.orderId == id).first()
-	order_cust = db_session.query(Person).filter(Person.id == order_info.orderCustomer).first()
-	order_details_data = db_session.query(OrderLine, Veggie).filter(OrderLine.orderId == id).join(Veggie, Veggie.id == OrderLine.veggieId).all()
-	order_details = []
-	for detail in order_details_data:
-		orderLine = detail[0].__dict__
-		veggie = detail[1].__dict__
-		order_details.append({**orderLine, **veggie})
-	print(order_details)
-	for item in order_details:
-		print(item)
-	return render_template("order/order_details.html", order = order_info, details = order_details , customer = order_cust)
+	try:
+		order_info = db_session.query(Order).filter(Order.orderId == id).first()
+		order_cust = db_session.query(Person).filter(Person.id == order_info.orderCustomer).first()
+		order_details_data = db_session.query(OrderLine, Veggie).filter(OrderLine.orderId == id).join(Veggie, Veggie.id == OrderLine.veggieId).all()
+		order_details = []
+		for detail in order_details_data:
+			orderLine = detail[0].__dict__
+			veggie = detail[1].__dict__
+			order_details.append({**orderLine, **veggie})
+		return render_template("order/order_details.html", order = order_info, details = order_details , customer = order_cust)
+	except Exception as e :
+		print(e)
+		return render_template("order/order_details.html", order = None, details = [] , customer = None)
 
-	
-
-	
-
-
-
-
-
-	# query db
+@order_bp.route("/cancel/<id>", methods = ["POST"])
+def cancleOrder(id):
+	try:
+		count = db_session.query(Order).filter(Order.orderId == id).update({Order.orderStatus : "canceled"})
+		db_session.commit()
+		if count == 1:
+			flash("Cancle Success", "success")
+			return redirect(url_for("user.myOrders"))
+	except Exception as e:
+		print(e)
+		flash("Cancle Failed", "error")
+		return jsonify({'message': 'Cancle Faild'}), 500
+		
