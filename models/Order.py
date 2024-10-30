@@ -5,9 +5,11 @@ class Order(Base):
 	# mapping
 	__tablename__ = "order"
 	orderId = Column(Integer, primary_key=True)
-	orderCustomer = Column(Integer, ForeignKey("customer.custId"), ForeignKey("corporateCustomer.corpCustId"))
+	orderCustomer = Column(Integer)
 	orderDate = Column(DATETIME)
+	# paid, shipping, delivered, close
 	orderStatus = Column(String(50))
+
 
 	def __init__(self, orderCustomer, orderDate,orderStatus) -> None:
 		self.orderCustomer = orderCustomer
