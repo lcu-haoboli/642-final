@@ -10,7 +10,7 @@ class Veggie(Base):
 	numberOfPack = Column(Integer, nullable = True) # pack veggie
 	pricePerPack = Column(DECIMAL(2), nullable = True) # pack veggie
 	weight = Column(FLOAT) # weight veggie
-	pricePerKiol = Column(DECIMAL(2), nullable = True) # weight veggie
+	pricePerKilo = Column(DECIMAL(2), nullable = True) # weight veggie
 	type = Column(String(50)) # discriminator
 
 
@@ -19,7 +19,7 @@ class Veggie(Base):
         'polymorphic_on': type
     }
 
-	def __init__(self, vegName, pricePerUnit=None, quantity=None, numberOfPack=None, pricePerPack=None, weight=None, pricePerKiol=None):
+	def __init__(self, vegName, pricePerUnit=None, quantity=None, numberOfPack=None, pricePerPack=None, weight=None, pricePerKilo=None):
 		self.vegName = vegName
 
 	
@@ -41,13 +41,13 @@ class WeightedVeggie(Veggie):
 		'polymorphic_identity': 'weightedVeggie',
 	}
 
-	def __init__(self, vegName,  weight, pricePerKiol):
+	def __init__(self, vegName,  weight, pricePerKilo):
 		super().__init__(vegName)
 		self.weight = weight
-		self.pricePerKiol = pricePerKiol
+		self.pricePerKilo = pricePerKilo
 
 	def __str__	(self):
-		return f"{self.vegName} {self.weight} {self.pricePerKiol}"
+		return f"{self.vegName} {self.weight} {self.pricePerKilo}"
 
 class PackVeggie(Veggie):
 	__mapper_args__ = {
