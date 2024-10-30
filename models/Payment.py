@@ -4,7 +4,7 @@ class Payment(Base):
 	# mapping
 	__tablename__ = "payment"
 	paymentId = Column(Integer,primary_key=True)
-	custId = Column(Integer, ForeignKey("customer.custId"))
+	custId = Column(Integer, ForeignKey("person.id"))
 	orderId = Column(Integer, ForeignKey("order.orderId"))
 	paymentAmount = Column(DECIMAL(precision=5, scale=2))
 	paymentDate = Column(DATETIME)
