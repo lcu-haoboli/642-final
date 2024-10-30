@@ -45,6 +45,7 @@
       {%endif%}
     </div>
     {% endif %}
+
      {%if userType == "corporateCustomer" or userType == "customer"
     %}
 
@@ -54,7 +55,6 @@
         <thead>
           <tr>
             <th>Order ID</th>
-
             <th>Order Date</th>
             <th>Order Status</th>
           </tr>
@@ -63,7 +63,6 @@
           {% for order in orders %}
           <tr>
             <td>{{ order.orderId }}</td>
-
             <td>{{ order.orderDate }}</td>
             <td>{{ order.orderStatus }}</td>
           </tr>
