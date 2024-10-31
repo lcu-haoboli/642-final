@@ -26,6 +26,7 @@
   {% import "message.html" as msgcomp %}
   {{ msgcomp.message() }}
   <div class="cust_order_container">
+    <h2> All Current Orders:</h2>
     <table>
         <thead>
             <tr>
@@ -50,6 +51,34 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
+
+<div class="cust_order_container">
+  <h2> All Current Orders of Coprerate Customer:</h2>
+  <table>
+      <thead>
+          <tr>
+              <th>Order ID</th>
+              <th>Order Status</th>
+              <th>order Date</th>
+              <th>Customer</th>
+              <th>Username</th>
+              <th>Check Order Detils</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for cust_order in corp_cust_order %}
+          <tr>
+              <td>{{ cust_order["orderId"]  }}</td>
+              <td>{{  cust_order["orderStatus"] }}</td>
+              <td>{{ cust_order["orderDate"] }}</td>
+              <td>ID: {{ cust_order["corpId"]  }} - {{cust_order["firstName"]}} {{cust_order["lastName"]}}</td>
+              <td>{{ cust_order["userName"]  }}</td>
+      <td><a href="{{url_for('order.details', id = cust_order['orderId'] )}}"><button>order details</button></a></td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
 </div>
 </body>
 </html>
