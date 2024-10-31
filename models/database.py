@@ -26,7 +26,8 @@ def init_db():
 	staff = Staff("kevin", "li", "1", "kevinli", "staff", 1, today, "hello-dep", "abcd",None, None)
 	staff2 = Staff("amy", "luo", "1", "kevina", "staff", 2, today, "hello-dep", "abcd",None, None)
 	cust = Customer("kevinb", "lib", "1", "kevinb","customer",3, "address", 0,0)
-	corp1 = CorporateCustomer(4,"veggie", "retail",1,"veggie-retail","corporateCustomer",0.2,200,20)
+	cust = Customer("kevinc", "lic", "1", "kevinc","customer",4, "address", 0,0)
+	corp1 = CorporateCustomer(5,"veggie", "retail",1,"veggie-retail","corporateCustomer",0.2,200,20)
 
 	#  add veggie to DB :
 	veggies = [
