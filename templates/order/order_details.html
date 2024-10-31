@@ -23,19 +23,23 @@
         <p>Order Status</p>
         <p>{{order['orderStatus']}}</p>
       </div>
+{%if session.get("userType") == "staff" %}
       <div>
         <form method="POST" action="{{ url_for('order.updateStatus', id = order['orderId']) }}">
         <select id="order-status" name="order-status">
           <option value="paid">Paid</option>
           <option value="shipping">Shipping</option>
-          <option value="deliveried">Deliverd Account</option>
+          <option value="delivered">Deliverd</option>
           <option value="canceled">Canceled</option>
         </select>
         <button type="submit">Update Order Status</button>
       </form>
       </div>
-    </div>
+      {%endif%}
 
+
+
+    </div>
     <div class="section">
       <p>Order Cutsomer</p>
       {{customer.userName}}
