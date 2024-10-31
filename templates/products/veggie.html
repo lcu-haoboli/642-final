@@ -21,8 +21,8 @@
       alt="{{ veggie.vegName }}"
     />
     <h2 id="vegName-{{veggie.id}}">{{ veggie.vegName }}</h2>
-    <span id="price-{{veggie.id}}" price="{{veggie.pricePerKiol or veggie.pricePerUnit or
-      veggie.pricePerPack}}">Price: ${{ veggie.pricePerKiol or veggie.pricePerUnit or
+    <span id="price-{{veggie.id}}" price="{{veggie.pricePerKilo or veggie.pricePerUnit or
+      veggie.pricePerPack}}">Price: ${{ veggie.pricePerKilo or veggie.pricePerUnit or
       veggie.pricePerPack }}</span
     >
     {% if veggie.type == 'unitPriceVeggie' %}
@@ -59,6 +59,7 @@
     const quantity = Number(document.getElementById(inputEleId).value);
     const priceEle = document.getElementById(`price-${productId}`)
     const price = Number(priceEle.getAttribute("price"))
+    console.log("price", price);
     const productName = document.getElementById(
       `vegName-${productId}`.toString()
     ).textContent;
@@ -71,6 +72,7 @@
     if (indexOfPorduct !== -1) {
       itemsInCart[indexOfPorduct].quantity =
         quantity + Number(itemsInCart[indexOfPorduct].quantity);
+        console.log("quantity::", quantity)
         itemsInCart[indexOfPorduct].total = itemsInCart[indexOfPorduct].quantity * price
     } else {
       const total = quantity * price
