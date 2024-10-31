@@ -35,6 +35,8 @@ def getOrdersByCustomerId(id):
 @order_bp.route("/<id>")
 def details(id):
 	try:
+		db_session.flush()
+		db_session.commit()
 		order_info = db_session.query(Order).filter(Order.orderId == id).first()
 		order_cust = db_session.query(Person).filter(Person.id == order_info.orderCustomer).first()
 		order_details_data = db_session.query(OrderLine, Veggie).filter(OrderLine.orderId == id).join(Veggie, Veggie.id == OrderLine.veggieId).all()
@@ -54,13 +56,14 @@ def cancleOrder(id):
 	try:
 		count = db_session.query(Order).filter(Order.orderId == id).update({Order.orderStatus : "canceled"})
 		db_session.commit()
+		db_session.flush()
 		if count == 1:
 			flash("Cancle Success", "success")
-			return redirect(url_for("user.myOrders"))
+		return redirect(url_for("user.myOrders", id = id))
 	except Exception as e:
-		print(e)
+		print("Error during cancel:", e)
 		flash("Cancle Failed", "error")
-		return jsonify({'message': 'Cancle Faild'}), 500
+		return redirect(url_for("user.myOrders", id = id))
 	
 @order_bp.route("/update/<id>", methods = ["POST"])	
 def updateStatus(id):
