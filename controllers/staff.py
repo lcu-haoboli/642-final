@@ -32,22 +32,60 @@ def allCustomer():
 	except Exception as e:
 		pass
 
-@staff_bp.route("/all_orders")
-def allOrder():
+@staff_bp.route("/all_orders/<type>")
+def allOrder(type):
+	print(type)
+	cust_orders = []
+	corp_cust_order = []
 	try:
-		order_cust_data = (db_session.query(Order, Customer)
+		# normal customer
+		current_order_cust_data = (db_session.query(Order, Customer)
 			.join(Person, Order.orderCustomer == Person.id)
 			.join(Customer, Customer.custId == Person.id)
+			.filter(Order.orderStatus != "delivered" and Order.orderStatus != "canceled" )
 			.all())
-		cust_orders = merge_cust_order_data(order_cust_data)
+		current_cust_orders = merge_cust_order_data(current_order_cust_data)
+
+		prev_order_cust_data = (db_session.query(Order, Customer)
+			.join(Person, Order.orderCustomer == Person.id)
+			.join(Customer, Customer.custId == Person.id)
+			.filter(Order.orderStatus == "delivered" or Order.orderStatus == "canceled" )
+			.all())
+		prev_cust_orders = merge_cust_order_data(prev_order_cust_data)
+
+		# corperate customer
 			
-		orders_corp_data = (db_session.query(Order, CorporateCustomer)
+		db_session.flush()
+		db_session.commit()
+		current_orders_corp_data = (db_session.query(Order, CorporateCustomer)
 				 .join(Person, Order.orderCustomer == Person.id)
 				 .join(CorporateCustomer,CorporateCustomer.corpCustId == Person.id)
+				 .filter(Person.userType == "corporateCustomer")
+				 .filter(Order.orderStatus != "delivered" and Order.orderStatus != "canceled" )
 				 .all()
 				 )
-		corp_cust_order = merge_corp_order_data(orders_corp_data)
-		return render_template("staff/all_orders.html", cust_orders = cust_orders, corp_cust_order = corp_cust_order)
+		current_corp_cust_order = merge_corp_order_data(current_orders_corp_data)
+
+		prev_orders_corp_data = (db_session.query(Order, CorporateCustomer)
+				 .join(Person, Order.orderCustomer == Person.id)
+				 .join(CorporateCustomer,CorporateCustomer.corpCustId == Person.id)
+				 .filter(Person.userType == "corporateCustomer")
+				 .filter(Order.orderStatus == "delivered" or Order.orderStatus == "canceled" )
+				 .all()
+				 )
+		prev_corp_cust_order = merge_corp_order_data(prev_orders_corp_data)
+
+		if type == "current":
+			cust_orders = current_cust_orders
+			corp_cust_order = current_corp_cust_order
+
+		elif type == "previous":
+			cust_orders = prev_cust_orders
+			corp_cust_order =prev_corp_cust_order
+			
+
+
+		return render_template("staff/all_orders.html", cust_orders = cust_orders, corp_cust_order = corp_cust_order,type = type)
 	except Exception as e:
 		flash(str(e), "error")
 		return render_template("staff/all_orders.html", orders = [])
