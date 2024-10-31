@@ -12,52 +12,55 @@
   href="{{ url_for('static', filename='styles/user_details.css') }}"
 />
 
-
-{% import "navbar.html" as components %} 
-{{ components.navbar() }}
+{% import "navbar.html" as components %} {{ components.navbar() }}
 <div class="order-table-container">
-	<h2 class="order-title">Order Information</h2>
-	{% import "message.html" as msgcomp %} {{ msgcomp.message() }}
-	<table>
-	  <thead>
-		<tr>
-		  <th>Order ID</th>
-		  <th>Order Date</th>
-		  <th>Order Status</th>
-		  <th>change Order</th>
-		</tr>
-	  </thead>
-	  <tbody>
-		{% for order in orders %}
-		<tr>
-		  <td>{{ order.orderId }}</td>
-		  <td>{{ order.orderDate }}</td>
-		  <td>{{ order.orderStatus }}</td>
-		  <td>
-			<button onclick="cancleOrder(`{{order.orderId}}`)">
-			Cancel Order
-		  </button>
-		</td>
-		</tr>
-		{% endfor %}
-	  </tbody>
-	</table>
-  </div>
+  <h2 class="order-title">Order Information</h2>
+  {% import "message.html" as msgcomp %} {{ msgcomp.message() }}
+  <table>
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Order Date</th>
+        <th>Order Status</th>
+        <th>change Order</th>
+        <th>Order Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td>{{ order.orderId }}</td>
+        <td>{{ order.orderDate }}</td>
+        <td>{{ order.orderStatus }}</td>
+        <td>
+          <button onclick="cancleOrder(`{{order.orderId}}`)">
+            Cancel Order
+          </button>
+        </td>
+        <td>
+          <a href="{{ url_for('order.details', id = order.orderId) }}">
+            <button>Order Details</button>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
-  <script>
-	const cancleOrder = (orderId) => {
-      fetch(`/order/cancel/${orderId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+<script>
+  const cancleOrder = (orderId) => {
+    fetch(`/order/cancel/${orderId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        console.log(response);
       })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    };
-
-  </script>
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+</script>
