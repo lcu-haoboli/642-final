@@ -9,6 +9,11 @@
   href="{{ url_for('static', filename='styles/order_by_cust_id.css') }}"
 />
 
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/all_customer.css') }}"
+/>
+
 
 <!DOCTYPE html>
 <html>
@@ -19,31 +24,64 @@
   {% import "navbar.html" as components %}
 
   {{ components.navbar() }}
+  <div class="all_customer_container">
+    <h1>Customer Info:</h1>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
+                <th>User Name</th>
+                <th>First Name</th>
+                <th>Last Name</th>
                 <th>Address</th>
                 <th>Customer Balance</th>
                 <th>Max Owning</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
             </tr>
         </thead>
         <tbody>
-            {% for data in customers %}
+            {% for customer in customers %}
             <tr>
-                <td>{{ data['id'] }}</td>
-                <td>{{ data['address'] }}</td>
-                <td>{{ data['custBalance'] }}</td>
-                <td>{{ data['maxOwning'] }}</td>
-                <td>{{ data['firstname'] }}</td>
-                <td>{{ data['lastname'] }}</td>
-                <td>{{ data['username'] }}</td>
+                <td>{{ customer.id }}</td>
+                <td>{{ customer.userName  }}</td>
+                <td>{{ customer.firstName }}</td>
+                <td>{{ customer.lastName  }}</td>
+                <td>{{ customer.address }}</td>
+                <td>{{ customer.custBalance}}</td>
+                <td>{{ customer.maxOwning }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+</div>
+
+<div class="all_customer_container_corp">
+    <h1>Corperate Customer Info:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User Name</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Discount Rate</th>
+                <th>Max Credit</th>
+                <th>Minimun Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cust in corp_cust %}
+            <tr>
+                <td>{{ cust.id }}</td>
+                <td>{{ cust.userName}}</td>
+                <td>{{ cust.firstName }}</td>
+                <td>{{ cust.lastName}}</td>
+                <td>{{ cust.dicountRate }}</td>
+                <td>{{ cust.maxCredit }}</td>
+                <td>{{ cust.minBalance }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

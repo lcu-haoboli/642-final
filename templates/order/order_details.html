@@ -12,59 +12,59 @@
 />
 
 <body>
-  {% import "navbar.html" as components %}
+  {% import "navbar.html" as components %} {{ components.navbar() }}
+  <div class="order-details">
+    <h1>Order {{order['orderId']}} details</h1>
 
-{{ components.navbar() }}
-<div class="order-details">
-  <h1>Order {{order['orderId']}} details</h1>
+    <div class="section">
+      <p>Order Id</p>
+      <p>{{order['orderId']}}</p>
+    </div>
 
-  <div class="section">
-    <p>Order Id</p>
-    <p>{{order['orderId']}}</p>
+    <!--  -->
+    <div class="section">
+      <p>Order Status</p>
+      <p>{{order['orderStatus']}}</p>
+    </div>
+
+    <div class="section">
+      <p>Order Cutsomer</p>
+      <p>{{customer['firstName'] + " " + customer["lastName"]}}</p>
+    </div>
   </div>
 
-  <!--  -->
-  <div class="section">
-    <p>Order Status</p>
-    <p>{{order['orderStatus']}}</p>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Premade Box ID</th>
+          <th>Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for detail in details %}
+
+        <tr>
+          <td>
+            {{ detail['vegName'] if detail['vegName'] is not none else '' }}
+          </td>
+          <td>{{ detail['orderQuantity'] }}</td>
+          <td>
+            {{ detail['pricePerPack'] or detail['pricePerKilo'] or
+            detail['pricePerUnit'] }}
+          </td>
+          <td>
+            {{ detail['premadeBoxId'] if detail['premadeBoxId'] is not none else'' }}
+          </td>
+          <td>
+            $ {{ (detail['orderQuantity']  (detail['pricePerPack'] or detail['pricePerKilo'] or detail['pricePerUnit'])) | round(2) }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
-
-  <div class="section">
-    <p>Order Cutsomer</p>
-    <p>{{customer['firstName'] + " " + customer["lastName"]}}</p>
-  </div>
-
-  
-
-
-  
-</div>
-
-<div class="table-container">
-<table>
-  <thead>
-    <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Premade Box ID</th>
-        <th>Total Price</th>
-    </tr>
-</thead>
-<tbody>
-  {% for detail in details %}
-  
-  <tr>
-      <td>{{ detail['vegName'] if detail['vegName'] is not none else '' }}</td>
-      <td>{{ detail['orderQuantity'] }}</td>
-      <td>{{ detail['pricePerPack'] or detail['pricePerKilo'] or detail['pricePerUnit'] }}</td>
-      <td>{{ detail['premadeBoxId'] if detail['premadeBoxId'] is not none else '' }}</td>
-      <td>
-        $ {{ (detail['orderQuantity'] * (detail['pricePerPack'] or detail['pricePerKilo'] or detail['pricePerUnit'])) | round(2) }}
-      </td>
-  </tr>
-  {% endfor %}
-</tbody>
-</table>
-</div>
 </body>

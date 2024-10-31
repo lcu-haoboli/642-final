@@ -1,0 +1,19 @@
+
+
+.all_customer_container{
+	width: 60%;
+	margin: 20px auto;
+}
+.all_customer_container h1{
+	color: hsl(43, 100%, 50%);
+}
+
+.all_customer_container_corp{
+	width: 60%;
+	margin: 20px auto;
+	margin-top: 50px;
+}
+
+.all_customer_container_corp h1 {
+	color : #007bff;
+}
