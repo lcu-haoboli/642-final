@@ -19,7 +19,7 @@ class Veggie(Base):
         'polymorphic_on': type
     }
 
-	def __init__(self, vegName, pricePerUnit=None, quantity=None, numberOfPack=None, pricePerPack=None, weight=None, pricePerKilo=None):
+	def __init__(self, vegName):
 		self.vegName = vegName
 
 	
