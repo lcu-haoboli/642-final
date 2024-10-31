@@ -43,11 +43,18 @@ def myOrders():
 	try:
 		id = session.get("userId")
 		userType = session.get("userType")
+		if id == None:
+			return redirect(url_for('login.login'))
+		
 		db_session.flush()
 		if userType == "customer" or userType == "corporateCustomer":
-			order_data = db_session.query(Order).filter(Order.orderCustomer == id).all()
-			return render_template("user/manage_order.html",orders = order_data)
+			db_session.commit()
+			current_orders = db_session.query(Order).filter(Order.orderCustomer == id).filter(Order.orderStatus != "delivered" and Order.orderStatus != "canceled" ).all()
+			previous_orders = db_session.query(Order).filter(Order.orderCustomer == id).filter(Order.orderStatus == "delivered" or Order.orderStatus == "canceled").all()
+		return render_template("user/manage_order.html",current_orders = current_orders, previous_orders=previous_orders)
 	except Exception as e:
-		pass
+		print(e)
+		return render_template("user/manage_order.html",current_orders = current_orders, previous_orders=previous_orders)
+		
 
 		
