@@ -61,4 +61,20 @@ def cancleOrder(id):
 		print(e)
 		flash("Cancle Failed", "error")
 		return jsonify({'message': 'Cancle Faild'}), 500
+	
+@order_bp.route("/update/<id>", methods = ["POST"])	
+def updateStatus(id):
+	try:
+		new_status = request.form.get("order-status")
+		result = db_session.query(Order).filter(Order.orderId == id).update({Order.orderStatus : new_status})
+		db_session.commit()
+		if result == 1:
+			flash("Update Order status successfuly", "success")
+		return redirect(url_for("order.details", id = id))
+	except Exception as e:
+		print(e)
+		flash("Update Order status failed", "error")
+		return redirect(url_for("order.details", id = id))
+
+
 		

@@ -14,8 +14,6 @@
 <body>
   {% import "navbar.html" as components %} {{ components.navbar() }}
   <div class="order-details">
-
-
     <h1>Order {{order.orderId}} details</h1>
 
     <div class="section">
@@ -25,8 +23,21 @@
 
     <!--  -->
     <div class="section">
-      <p>Order Status</p>
-      <p>{{order['orderStatus']}}</p>
+      <div class="order-status">
+        <p>Order Status</p>
+        <p>{{order['orderStatus']}}</p>
+      </div>
+      <div>
+        <form method="POST" action="{{ url_for('order.updateStatus', id = order['orderId']) }}">
+        <select id="order-status" name="order-status">
+          <option value="paid">Paid</option>
+          <option value="shipping">Shipping</option>
+          <option value="deliveried">Deliverd Account</option>
+          <option value="canceled">Canceled</option>
+        </select>
+        <button type="submit">Update Order Status</button>
+      </form>
+      </div>
     </div>
 
     <div class="section">
@@ -59,10 +70,12 @@
             detail['pricePerUnit'] }}
           </td>
           <td>
-            {{ detail['premadeBoxId'] if detail['premadeBoxId'] is not none else'' }}
+            {{ detail['premadeBoxId'] if detail['premadeBoxId'] is not none
+            else'' }}
           </td>
           <td>
-            $ {{ (detail['orderQuantity'] * (detail['pricePerPack'] or detail['pricePerKilo'] or detail['pricePerUnit'])) | round(2) }}
+            $ {{ (detail['orderQuantity'] * (detail['pricePerPack'] or
+            detail['pricePerKilo'] or detail['pricePerUnit'])) | round(2) }}
           </td>
         </tr>
         {% endfor %}
