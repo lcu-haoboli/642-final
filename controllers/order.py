@@ -39,10 +39,11 @@ def details(id):
 		order_cust = db_session.query(Person).filter(Person.id == order_info.orderCustomer).first()
 		order_details_data = db_session.query(OrderLine, Veggie).filter(OrderLine.orderId == id).join(Veggie, Veggie.id == OrderLine.veggieId).all()
 		order_details = []
-		for detail in order_details_data:
-			orderLine = detail[0].__dict__
-			veggie = detail[1].__dict__
-			order_details.append({**orderLine, **veggie})
+		for orderLine, veggie in order_details_data:
+			oderLineDict = orderLine.__dict__
+			veggieDict = veggie.__dict__
+			merge_data = {**oderLineDict, **veggieDict}
+			order_details.append(merge_data)
 		return render_template("order/order_details.html", order = order_info, details = order_details , customer = order_cust)
 	except Exception as e :
 		print(e)
