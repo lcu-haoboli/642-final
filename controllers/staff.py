@@ -9,9 +9,9 @@ from models.OrderLine import OrderLine
 from models.CorporateCustomer import CorporateCustomer
 from datetime import date
 from models.Customer import Customer
-from sqlalchemy.sql import text
+from sqlalchemy.sql import text, alias
 db_session = Session()
-
+person_alias = alias(Person)
 
 staff_bp = Blueprint("staff", __name__, static_folder="static", template_folder="templates/staff")
 
@@ -25,40 +25,71 @@ def dashboard():
 @staff_bp.route("/all_customers")
 def allCustomer():
 	# query db
-	query = text("select c.*, p.* from customer c left join person p on c.custId = p.id")
-	result = db_session.execute(query).all()
-	cust_info = []
-	if result:
-		for cust in result:
-			custInfo = {
-					"id" : cust[0],
-					"address" : cust[1],
-					"custBalance" : cust[2],
-					"maxOwning" : cust[3],
-					"firstname" : cust[5],
-					"lastname" : cust[6],
-					"username" : cust[8]
-					}
-			cust_info.append(custInfo)
-	return render_template("staff/all_customers.html", customers = cust_info)
+	try:
+		customers = db_session.query(Customer).all()
+		corp_cust = db_session.query(CorporateCustomer).all()
+		return render_template("staff/all_customers.html", customers = customers, corp_cust = corp_cust)
+	except Exception as e:
+		pass
 
 @staff_bp.route("/all_orders")
 def allOrder():
 	try:
-		orders_custs = db_session.query(Order,Customer).join(Customer).all()
-		orders_corp = db_session.query(Order,CorporateCustomer).join(CorporateCustomer).all()
-		list_orders_custs = []
-		for order_cust in orders_custs:
-			order = order_cust[0].__dict__
-			cust = order_cust[1].__dict__
-			list_orders_custs.append({**order, **cust})
-		print(list_orders_custs)
-		for item in list_orders_custs:
-			print(item)
-		return render_template("staff/all_orders.html", orders = list_orders_custs)
+		order_cust_data = (db_session.query(Order, Customer)
+			.join(Person, Order.orderCustomer == Person.id)
+			.join(Customer, Customer.custId == Person.id)
+			.all())
+		cust_orders = merge_cust_order_data(order_cust_data)
+			
+		orders_corp_data = (db_session.query(Order, CorporateCustomer)
+				 .join(Person, Order.orderCustomer == Person.id)
+				 .join(CorporateCustomer,CorporateCustomer.corpCustId == Person.id)
+				 .all()
+				 )
+		corp_cust_order = merge_corp_order_data(orders_corp_data)
+		return render_template("staff/all_orders.html", cust_orders = cust_orders, corp_cust_order = corp_cust_order)
 	except Exception as e:
 		flash(str(e), "error")
 		return render_template("staff/all_orders.html", orders = [])
 		
 
-	
+
+def merge_cust_order_data(datas):
+	merge_data = []
+	if len(datas) > 0:
+		for order, customer in datas:
+			merge_record = {
+				"firstName" : customer.firstName,
+				"lastName" : customer.lastName,
+				"userName" : customer.userName,
+				"userType" : customer.userType,
+				"orderId" : order.orderId,
+				"orderDate" : order.orderDate,
+				"orderStatus" : order.orderStatus,
+				"customerId": customer.custId,
+				"custAddress" : customer.custAddress,
+				"custBalance" : customer.custBalance,
+				"maxOwning" : customer.maxOwning
+			}
+			merge_data.append(merge_record)
+	return merge_data
+
+def merge_corp_order_data(datas):
+	merge_data = []
+	if len(datas) > 0:
+		for order, corporateCustomer in datas:
+			merge_record = {
+				"firstName" : corporateCustomer.firstName,
+				"lastName" : corporateCustomer.lastName,
+				"userName" : corporateCustomer.userName,
+				"userType" : corporateCustomer.userType,
+				"orderId" : order.orderId,
+				"orderDate" : order.orderDate,
+				"orderStatus" : order.orderStatus,
+				"corpId": corporateCustomer.corpCustId,
+				"discountRate" : corporateCustomer.discountRate,
+				"maxCredit" : corporateCustomer.maxCredit,
+				"minBalance" : corporateCustomer.minBalance 
+			}
+			merge_data.append(merge_record)
+	return merge_data

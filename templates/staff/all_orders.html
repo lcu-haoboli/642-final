@@ -6,6 +6,11 @@
   rel="stylesheet"
   href="{{ url_for('static', filename='styles/index.css') }}"
 />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/all_order.css') }}"
+/>
+
 
 
 
@@ -20,10 +25,11 @@
   {{ components.navbar() }}
   {% import "message.html" as msgcomp %}
   {{ msgcomp.message() }}
+  <div class="cust_order_container">
     <table>
         <thead>
             <tr>
-                <th>ID</th>
+                <th>Order ID</th>
                 <th>Order Status</th>
                 <th>Delivery Address</th>
                 <th>Customer</th>
@@ -32,17 +38,18 @@
             </tr>
         </thead>
         <tbody>
-            {% for order in orders %}
+            {% for cust_order in cust_orders %}
             <tr>
-                <td>{{ order['orderId'] }}</td>
-                <td>{{ order['orderStatus'] }}</td>
-                <td>{{ order['custAddress'] }}</td>
-                <td>{{ order['firstName'] + '  '+ order['lastName'] }}</td>
-                <td>{{ order['userName'] }}</td>
-				<td><a href="{{url_for("order.details", id = order['orderId'] )}}"><button>order details</button></a></td>
+                <td>{{ cust_order["orderId"]  }}</td>
+                <td>{{  cust_order["orderStatus"] }}</td>
+                <td>{{ cust_order["custAddress"] }}</td>
+                <td>ID: {{ cust_order["customerId"]  }} - {{cust_order["firstName"]}} {{cust_order["lastName"]}}</td>
+                <td>{{ cust_order["userName"]  }}</td>
+				<td><a href="{{url_for('order.details', id = cust_order['orderId'] )}}"><button>order details</button></a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+</div>
 </body>
 </html>

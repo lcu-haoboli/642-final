@@ -1,0 +1,9 @@
+
+.cust_order_container{
+	width: 60%;
+	margin: 40px auto;
+}
+
+.cust_order_container table{
+	border-radius: 5px;
+}
