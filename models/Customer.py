@@ -1,5 +1,5 @@
 from . import Person
-from sqlalchemy import  Column, Integer, String, ForeignKey,DateTime, DOUBLE,DECIMAL
+from sqlalchemy import  Column, Integer, String, ForeignKey,DateTime,DECIMAL
 class Customer(Person.Person):
 	__tablename__="customer"
 	# mapping

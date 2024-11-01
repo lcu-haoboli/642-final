@@ -1,4 +1,4 @@
-from sqlalchemy import  Column, Integer, String, ForeignKey,DATETIME, DOUBLE,DECIMAL
+from sqlalchemy import  Column, Integer, String, ForeignKey,DATETIME,DECIMAL
 from base import Base
 class Payment(Base):
 	# mapping
