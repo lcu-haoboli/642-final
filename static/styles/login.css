@@ -32,3 +32,9 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #3e8e41;
 }
+
+.login_container {
+    margin: 40px auto;
+    width: 70%;
+    text-align: center;
+}

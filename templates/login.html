@@ -1,32 +1,30 @@
 <link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='styles/login.css') }}"
+rel="stylesheet"
+href="{{ url_for('static', filename='styles/index.css') }}"
 />
 <link
   rel="stylesheet"
-  href="{{ url_for('static', filename='styles/index.css') }}"
+  href="{{ url_for('static', filename='styles/login.css') }}"
 />
 
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Login</title>
-</head>
-<body>
-  {% import "navbar.html" as components %}
-
-
-
-{{ components.navbar() }}
-    <h1>Login</h1>
-    {% import "message.html" as msgcomp %}
-    {{ msgcomp.message() }}
-    <form method="POST">
+  </head>
+  <body>
+    {% import "navbar.html" as components %} {{ components.navbar() }}
+    <div class="login_container">
+      {% import "message.html" as msgcomp %} {{ msgcomp.message() }}
+      <h1>Login</h1>
+      {% import "message.html" as msgcomp %} {{ msgcomp.message() }}
+      <form method="POST">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username"><br><br>
+        <input type="text" id="username" name="username" /><br /><br />
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password"><br><br>
-        <input type="submit" value="Login">
-    </form>
-</body>
+        <input type="password" id="password" name="password" /><br /><br />
+        <input type="submit" value="Login" />
+      </form>
+    </div>
+  </body>
 </html>
