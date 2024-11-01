@@ -32,7 +32,7 @@ def cart():
             return render_template('cart.html', cart_items=cart_items, total_price=total_price, 
                                    maxCredit = maxCredit , owning = 0, minBalance=minBalance, 
                                    custBalance=custBalance, userType =userType,
-                                   premadeBox = session["premadebox"] if session["premadebox"] else []
+                                   premadeBox = session.get("premadebox") if session.get("premadebox") else []
                                    )
         else: 
             session["total_amount_to_pay"] = total_price
@@ -107,8 +107,12 @@ def checkout():
             db_session.commit()
         
         # clean up
-        session.pop("premadebox")
-        session.pop("cartItems")
+        if session.get("premadebox"):
+            session.pop("premadebox")
+        
+        if session.get("cartItems"):
+            session.pop("cartItems")
+        flash(f"Made order successfuly", "success")
         return redirect(url_for('home'))
     except Exception as e:
         print(e)
