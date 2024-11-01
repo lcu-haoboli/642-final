@@ -86,7 +86,12 @@ button {
     margin: 5px;
 }
 
-/* .checkout-form-box{
-    float: right;
-} */
+.cart-container {
+    margin: 40px auto;
+    width: 60%;
+    height: 100vh;
+}
 
+.premadebox-title {
+    margin-left: 20px;
+}

@@ -21,35 +21,35 @@
       </a>
     </div>
     <div class="staff-dashboard-card">
-      <a href="{{url_for("staff.allOrder")}}">
+      <a href="{{url_for('staff.allOrder', type = 'current')}}">
         <button>Current Orders</button>
       </a>
     </div>
     <div class="staff-dashboard-card">
-      <a href="{{url_for("staff.allOrder")}}">
+      <a href="{{url_for('staff.allOrder', type = 'previous')}}">
         <button>Previous Orders</button>
       </a>
     </div>
     <div class="staff-dashboard-card">
-      <a href="{{url_for("staff.allOrder")}}">
+      <a href="{{url_for("staff.allOrder" ,type = 'current')}}">
         <button>Most popular item</button>
       </a>
     </div>
     <!--  total sales for the week -->
     <div class="staff-dashboard-card">
-      <a href="{{url_for("staff.allOrder")}}">
+      <a href="{{url_for("staff.allOrder",type = 'current')}}">
         <button>Total sales for the week</button>
       </a>
     </div>
         <!--  total sales for the month -->
         <div class="staff-dashboard-card">
-          <a href="{{url_for("staff.allOrder")}}">
+          <a href="{{url_for("staff.allOrder",type = 'current')}}">
             <button>Total sales for the month</button>
           </a>
         </div>
             <!--  total sales for the year -->
     <div class="staff-dashboard-card">
-      <a href="{{url_for("staff.allOrder")}}">
+      <a href="{{url_for("staff.allOrder",type = 'current')}}">
         <button>Total sales for the year</button>
       </a>
     </div>

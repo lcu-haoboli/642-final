@@ -22,16 +22,24 @@ def cart():
         maxCredit = session.get("maxCredit") 
         minBalance = session.get("minBalance")
         custBalance = session.get("custBalance")
+        
         userType = session.get("userType")
         total_price = 0
         if cart_items:
             for item in cart_items:
                 total_price += item["total"]
             session["total_amount_to_pay"] = total_price
-            return render_template('cart.html', cart_items=cart_items, total_price=total_price, maxCredit = maxCredit , owning = 0, minBalance=minBalance, custBalance=custBalance, userType =userType)
+            return render_template('cart.html', cart_items=cart_items, total_price=total_price, 
+                                   maxCredit = maxCredit , owning = 0, minBalance=minBalance, 
+                                   custBalance=custBalance, userType =userType,
+                                   premadeBox = session["premadebox"] if session["premadebox"] else []
+                                   )
         else: 
             session["total_amount_to_pay"] = total_price
-            return render_template('cart.html', cart_items=[], total_price=0, maxCredit = maxCredit , owning = 0, minBalance=minBalance, custBalance=custBalance, userType =userType)
+            return render_template('cart.html', cart_items=[], total_price=0, 
+                                   maxCredit = maxCredit , owning = 0, minBalance=minBalance, 
+                                   custBalance=custBalance, userType =userType,
+                                   premadeBox = session.get("premadebox") if session.get("premadebox") else [])
     except Exception as e:
         print(e)
         pass
@@ -47,7 +55,7 @@ def checkout():
         custId =  int(session["userId"])
         total_amount = session.get("total_amount_to_pay")
         today = date.today()
-        order = Order(custId, today,"paid" )
+        order = Order(custId, today,"paid","normal" )
         db_session.add(order)
         db_session.flush()
         orderId = order.orderId
@@ -68,13 +76,38 @@ def checkout():
         
         # add order line:
         items = session.get("cartItems")
-        for item in items:
-            orderLine = OrderLine(orderId,item["productId"],None,item["quantity"])
-            db_session.add(orderLine)
-        db_session.commit()
+        if items:
+            for item in items:
+                orderLine = OrderLine(orderId,item["productId"],None,item["quantity"])
+                db_session.add(orderLine)
+            db_session.commit()
+
+        premadeboxOrder = session.get("premadebox")
+        if premadeboxOrder != None and premadeboxOrder != []:
+            premadebox_order = Order(custId, today,"paid", "premadebox" )
+            db_session.add(premadebox_order)
+            db_session.flush()
+            premadebox_order_id = premadebox_order.orderId
+            if payment_method == "credit_card":
+                payment = CreditCardPayment(custId,orderId,total_amount,today,card_expired_date)
+                db_session.add(payment)
+            if payment_method == "debit_card":
+                payment = DebitCardPayment(custId,orderId,total_amount,today,bank_name,debit_card_number)
+                db_session.add(payment)
+            for item in premadeboxOrder:
+                orderLine = OrderLine(premadebox_order_id,item["veggie"],item["quantity"])
+                db_session.add(orderLine)
+                print(item)
+            # final commit the add order line
+            db_session.flush()
+            db_session.commit()
+        
+        # clean up
+        session.pop("premadebox")
+        session.pop("cartItems")
         return redirect(url_for('home'))
     except Exception as e:
         print(e)
         flash(f"An error occurred while adding the category: {e}", "error")
-        return redirect(url_for('home'))
+        return redirect(url_for('cart.cart'))
 

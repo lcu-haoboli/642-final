@@ -32,11 +32,9 @@ body {
 }
 
 .flash-messages {
-    position: fixed;
-    top: 20px;
-    /* right: 20px; */
-    z-index: 1000;
-    width: 300px;
+    margin: 20px auto;
+    text-align: center;
+    width: 500px;
 }
 
 .flash-message {
@@ -49,9 +47,19 @@ body {
 }
 
 .flash-message.success {
-    background-color: #4CAF50; /* Green for success */
+    background-color: #4CAF50; 
+}
+
+.flash-message.warning {
+    background-color: #ffcc00; 
+    color: black;
+}
+
+
+.flash-message.info {
+    background-color: #007bff; 
 }
 
 .flash-message.error {
-    background-color: #f44336; /* Red for error */
+    background-color: #f44336; 
 }

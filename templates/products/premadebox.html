@@ -1,14 +1,143 @@
-
 <link
   rel="stylesheet"
   href="{{ url_for('static', filename='styles/index.css') }}"
 />
 
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/premadebox.css') }}"
+/>
 
-{% import "navbar.html" as components %}
+{% import "navbar.html" as components %} {{ components.navbar() }} {% import
+"message.html" as msgcomp %} {{ msgcomp.message() }}
+<div class="premadebox-container">
+  <div class="title-container">
+    <h1>Veggie Section</h1>
+    <h1>Premadebox</h1>
+  </div>
+  <div class="section-container">
+    <div class="veggie-section">
+      {% for veggie in veggies%}
+      <div class="vegetable-card">
+        <img
+          src="{{
+                  url_for('static', filename='images/'+veggie.vegName+'.jpg')
+                }}"
+          alt="{{ veggie.vegName }}"
+        />
+        <h2 id="vegName-{{veggie.id}}">{{ veggie.vegName }}</h2>
+        <span
+          id="price-{{veggie.id}}"
+          price="{{veggie.pricePerKilo or veggie.pricePerUnit or
+          veggie.pricePerPack}}"
+          >Price: ${{ veggie.pricePerKilo or veggie.pricePerUnit or
+          veggie.pricePerPack }}</span
+        >
+        {% if veggie.type == 'unitPriceVeggie' %}
+        <span>Per Unit</span>
+        {%elif veggie.type == "weightedVeggie" %}
+        <span>Per Kilogram</span>
+        {%else%}
+        <span>Per Pack</span>
+        {%endif%}
+        <div class="inputbox-container">
+          <form
+            method="POST"
+            action="{{ url_for('premadebox.addToBox', veggieId=veggie.id) }}"
+          >
+            <input
+              type="number"
+              min="1"
+              class="quantity-input"
+              id="quantity-input"
+              name="quantity-input"
+            />
+            <input
+              type="hidden"
+              name="veggie-name"
+              value="{{ veggie.vegName }}"
+            />
+            <button
+              class="add-to-cart-btn"
+              id="`addToCartBtn`"
+              data-id="`{{veggie.id}}`"
+              type="submit"
+            >
+              Add to Box
+            </button>
+          </form>
+        </div>
+      </div>
+      {%endfor%}
+    </div>
 
-{{ components.navbar() }}
+    <!-- premadebox-section -->
+    <div class="premadebox-section">
+      <div class="size-form-container">
+        <form method="POST" action="{{ url_for('premadebox.selectBox') }}">
+          <label for="premadeBoxSize">Select a PremadeBox size:</label>
+          <div class="form-option-container">
+            <select id="premadeBoxSize" name="premadeBoxSize">
+              <option value="small">small</option>
+              <option value="medium">midum</option>
+              <option value="large">large</option>
+            </select>
+            <button type="submit">Select</button>
+          </div>
+        </form>
+      </div>
 
-  <h1>
-	premadebox
-</h1>
+      {%if boxsize == 'small' %}
+      <div class="premadebox-card">
+        <h4>Small PremadeBox</h4>
+        <div class="veggie-list">
+          {% for item in itemInBox%}
+          <div class="veggie-list-item">
+            <p>Veggie Id: {{item.veggie}}</p>
+            <p>Veggie Name: {{item.veggieName}}</p>
+            <p>Quantity: {{item.quantity}}</p>
+          </div>
+          {%endfor%}
+        </div>
+        <form method="POST" action="{{ url_for('premadebox.addToCheckOut') }}">
+          <button class="premadebox-add-to-cart-btn" type="submit">
+            Add to Checkout
+          </button>
+        </form>
+      </div>
+      {%endif%} {%if boxsize == 'medium' %}
+      <div class="premadebox-card">
+        <h4>Medium PremadeBox</h4>
+        <div class="veggie-list">
+          {% for item in itemInBox%}
+          <div class="veggie-list-item">
+            <p>Veggie Id: {{item.veggie}}</p>
+            <p>Veggie Name: {{item.veggieName}}</p>
+            <p>Quantity: {{item.quantity}}</p>
+          </div>
+          {%endfor%}
+        </div>
+        <form method="POST" action="{{ url_for('premadebox.addToCheckOut') }}">
+          <button class="premadebox-add-to-cart-btn" type="submit">Add to Checkout</button>
+        </form>
+      </div>
+      {%endif%} {%if boxsize == 'large' %}
+      <div class="premadebox-card">
+        <h4>Large PremadeBox</h4>
+        <div class="veggie-list">
+          {% for item in itemInBox%}
+          <div class="veggie-list-item">
+            <p>Veggie Id: {{item.veggie}}</p>
+            <p>Veggie Name: {{item.veggieName}}</p>
+            <p>Quantity: {{item.quantity}}</p>
+          </div>
+          {%endfor%}
+        </div>
+        <form method="POST" action="{{ url_for('premadebox.addToCheckOut') }}">
+          <button class="premadebox-add-to-cart-btn" type="submit">Add to Checkout</button>
+        </form>
+      </div>
+      {%endif%}
+    </div>
+  </div>
+</div>

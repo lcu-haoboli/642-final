@@ -9,10 +9,12 @@ class Order(Base):
 	orderDate = Column(DATETIME)
 	# paid, shipping, delivered, close
 	orderStatus = Column(String(50))
+	oderType = Column(String(50), nullable=True)
 
 
-	def __init__(self, orderCustomer, orderDate,orderStatus) -> None:
+	def __init__(self, orderCustomer, orderDate,orderStatus,oderType) -> None:
 		self.orderCustomer = orderCustomer
 		self.orderDate = orderDate
 		self.orderStatus = orderStatus
+		self.oderType = oderType
 	

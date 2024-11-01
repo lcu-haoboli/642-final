@@ -1,0 +1,170 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.title-container {
+  display: flex;
+}
+
+.section-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.premadebox-card {
+  margin: 10px;
+  width: 100%;
+  height: 400px;
+  background-color: white;
+  border: #ccc 1px solid;
+  border-radius: 5px;
+  flex-grow: 1;
+}
+
+.premadebox-card h4 {
+  margin-left: 30px;
+}
+
+.premadebox-add-to-cart-btn {
+  float: right;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.veggie-list {
+  height: 70%;
+  width: 90%;
+  overflow-y: auto;
+  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  margin-left: 30px;
+}
+
+.veggie-list p{
+    height: 10px;
+    margin-right: 20px;
+}
+
+.veggie-list-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    justify-content: space-between;
+    border-bottom: #ccc 1px solid; 
+}
+
+.premadebox-container h1 {
+  margin: 20px auto;
+  text-align: center;
+}
+
+.veggie-section {
+  display: flex;
+  width: 70%;
+  flex-wrap: wrap;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.premadebox-section {
+  width: 30%;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.quantity-input {
+  width: 50px;
+  height: 35px;
+  text-align: center;
+}
+
+.vegetable-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.vegetable-card {
+  width: 200px;
+  height: 350px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+}
+
+.vegetable-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.add-to-cart-btn {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.inputbox-container {
+  margin-top: 8px;
+}
+
+.inputbox-container button {
+  border-radius: 5px;
+}
+
+.premadebox-section form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.premadebox-section label {
+  margin-bottom: 10px;
+}
+
+.premadebox-section select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.premadebox-section button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.premadebox-section button:hover {
+  background-color: #0062cc;
+}
+
+.form-option-container {
+    display: flex;
+}
+
+.form-option-container select{
+    margin-right: 20px;
+}
+
+.size-form-container {
+    width: 100%;
+    border: 1px solid #ccc;
+    margin: 0 10px;
+    height: 200px;
+    align-items: center;
+    border-radius: 5px;
+}
