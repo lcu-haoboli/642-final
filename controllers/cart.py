@@ -41,8 +41,12 @@ def cart():
                                    custBalance=custBalance, userType =userType,
                                    premadeBox = session.get("premadebox") if session.get("premadebox") else [])
     except Exception as e:
-        print(e)
-        pass
+        print("cart.cart", e)
+        return render_template('cart.html', cart_items=[], total_price=0, 
+                                   maxCredit = maxCredit , owning = 0, minBalance=minBalance, 
+                                   custBalance=custBalance, userType =userType,
+                                   premadeBox = [])
+
 
 
 
