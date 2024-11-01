@@ -82,7 +82,7 @@ def checkout():
         items = session.get("cartItems")
         if items:
             for item in items:
-                orderLine = OrderLine(orderId,item["productId"],None,item["quantity"])
+                orderLine = OrderLine(orderId,item["productId"],item["quantity"])
                 db_session.add(orderLine)
             db_session.commit()
 
