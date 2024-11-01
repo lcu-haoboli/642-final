@@ -9,7 +9,7 @@ db_session = Session()
 def premadebox():
 	try:
 		if session.get("userType") == "staff":
-			flash("Please login in as Customer", "info")
+			flash("Please login in as Customer", "warning")
 		print(session)
 		url_boxsize = request.args.get('boxsize')
 		if url_boxsize != None:
