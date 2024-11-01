@@ -7,12 +7,16 @@ db_session = Session()
 
 @veggie_bp.route("/", methods = ["GET", "POST"])
 def veggie():
-	veggies = db_session.query(Veggie).all()
-	if request.method == 'POST':
-		data = request.get_json()
-		cartItems = data["cartItems"]
-		session['cartItems'] = json.loads(cartItems)
-		print(session['cartItems'])
+	try:
+		veggies = db_session.query(Veggie).all()
+		if request.method == 'POST':
+			data = request.get_json()
+			cartItems = data["cartItems"]
+			session['cartItems'] = json.loads(cartItems)
+			print(session['cartItems'])
+			return render_template("products/veggie.html", veggies=veggies)
 		return render_template("products/veggie.html", veggies=veggies)
-	return render_template("products/veggie.html", veggies=veggies)
+	except Exception as e:
+		print("veggie.veggie", e)
+		return render_template("products/veggie.html", veggies=[])
 	
