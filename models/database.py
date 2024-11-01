@@ -14,7 +14,7 @@ from .OrderLine import OrderLine
 from .CorporateCustomer import CorporateCustomer
 
 
-engine = create_engine("mysql+mysqlconnector://root:password@localhost:3306/veggie_shop",echo=True)
+engine = create_engine("mysql+mysqlconnector://haoboli:veggie.veggie@haoboli.mysql.pythonanywhere-services.com:3306/haoboli$veggie_shop",echo=True)
 
 
 def init_db():
