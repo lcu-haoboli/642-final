@@ -17,7 +17,6 @@ href="{{ url_for('static', filename='styles/index.css') }}"
     <div class="login_container">
       {% import "message.html" as msgcomp %} {{ msgcomp.message() }}
       <h1>Login</h1>
-      {% import "message.html" as msgcomp %} {{ msgcomp.message() }}
       <form method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" /><br /><br />
