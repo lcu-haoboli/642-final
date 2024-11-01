@@ -15,67 +15,34 @@
   {% import "navbar.html" as components %}
 
 {{ components.navbar() }}
+{% import "message.html" as msgcomp %}
+{{ msgcomp.message() }}
 
 
-
-<div class="carousel">
-  <div class="carousel-images">
+<div >
+  <div style="margin: 0 auto; width: 70%; text-align: center;">
+    <h1>Welcome to Fresh Veggie Shop</h1>
   <img
     src="{{
             url_for('static', filename='images/carrot.jpg')
           }}"
     alt="carrot"
-    class="carousel-image"
+    
   />
 
-  <!-- <img
-    src="{{
-            url_for('static', filename='images/asparagus.jpg')
-          }}"
-    alt="asparagus"
-    class="carousel-image"
-  />
 
   <img
     src="{{
             url_for('static', filename='images/tomato.jpg')
           }}"
     alt="tomato"
-    class="carousel-image"
-  /> -->
+    
+  /> 
 </div>
 
-<!-- <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-<button class="next" onclick="moveSlide(1)">&#10095;</button> -->
 
 
 </div>
 
 <div class="footer">foorter</div>
 </body>
-
-<script>
-  const cleanLocalStorage = () => {
-    localStorage.clear();
-  };
-
-  const carouselInner = document.querySelector(".carousel-inner");
-  const items = carouselInner.children;
-  console.log(items);
-  let currentIndex = 0;
-
-  function changeSlides(index) {
-    items[currentIndex].classList.remove("active");
-    items[index].classList.add("active");
-    currentIndex = index;
-  }
-
-  function nextSlide() {
-    console.log("currentIndex-1", currentIndex);
-    currentIndex = (currentIndex + 1) % items.length;
-    console.log("currentIndex-2", currentIndex);
-    changeSlides(currentIndex);
-  }
-
-  setInterval(nextSlide, 2500);
-</script>
